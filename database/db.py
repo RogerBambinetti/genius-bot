@@ -1,9 +1,16 @@
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 class Database():
     def __init__(self):
-        self.__connection = sqlite3.connect('./database/database.db')
+        self.__engine = create_engine('sqlite:///database.db', echo=True)
+        Session = sessionmaker(bind=self.__engine)
+        self.__session = Session()
 
     @property
-    def connection(self):
-        return self.__connection
+    def engine(self):
+        return self.__engine
+
+    @property
+    def session(self):
+        return self.__session
