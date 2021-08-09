@@ -19,3 +19,5 @@ class Database():
     @property
     def base(self):
         return self.__base
+
+Db = Database()
