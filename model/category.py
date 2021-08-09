@@ -1,5 +1,15 @@
+from sqlalchemy import Column, Integer, String
+from database.db import Db
 
-class Category:
+Base = Db.base
+
+
+class Category(Base):
+
+    __tablename__ = 'Category'
+
+    id = Column(Integer, primary_key=True)
+    _name = Column('name', String)
 
     def __init__(self, name: str):
         self.__name = name
@@ -11,3 +21,5 @@ class Category:
     @name.setter
     def name(self, name: str):
         self.__name = name
+
+Base.metadata.create_all()
