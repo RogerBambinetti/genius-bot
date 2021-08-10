@@ -1,13 +1,11 @@
 from model.user import User
 
 class Administrator(User):
-    def __init__(self, name, username, email, password, id=None):
+    def __init__(self, name, username, email, password):
+        self.__id = None
         super().__init__(name, username)
         self.__email = email
         self.__password = password
-        
-        if(id != None):
-            self.__id = id
 
     @property
     def id(self):
