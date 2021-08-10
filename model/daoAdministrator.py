@@ -9,7 +9,7 @@ class DaoAdministrator(AbstractDao):
         self.__table_name = 'administrator'
 
         fields = 'id integer NOT NULL, name varchar(255) NOT NULL, username varchar(255) NOT NULL, email varchar(255) NOT NULL,  password varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'        
-        self.__database.connection.execute(f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
+        self.__database.cursor.execute(f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
         self.__database.connection.commit()
 
     @property
@@ -18,25 +18,27 @@ class DaoAdministrator(AbstractDao):
 
     def insert(self, administrator: Administrator):
         fields = 'name, username, email, password'
-        values = f'{administrator.name},{administrator.username},{administrator.email},{administrator.password}'
+        values = f'"{administrator.name}","{administrator.username}","{administrator.email}","{administrator.password}"'
         
-        self.__database.connection.execute(f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
+        self.__database.cursor.execute(f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
         self.__database.connection.commit()
 
+        administrator.id = self.__database.cursor.lastrowid
+
     def update(self, administrator: Administrator):
-        fields = f'name = {administrator.name}, username = {administrator.username}, email = {administrator.email}, password = {administrator.password}'
+        fields = f'name = "{administrator.name}", username = "{administrator.username}", email = "{administrator.email}", password = "{administrator.password}"'
         
-        self.__database.connection.execute(f'UPDATE {self.__table_name} SET {fields} WHERE id = {administrator.id}')
+        self.__database.cursor.execute(f'UPDATE {self.__table_name} SET {fields} WHERE id = {administrator.id}')
         self.__database.connection.commit()
 
     def delete(self, administrator: Administrator):
-        self.__database.connection.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
+        self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
         self.__database.connection.commit()
 
     def read(self, administrator: Administrator):
-        self.__database.connection.execute(f'SELECT FROM {self.__table_name} WHERE id = {administrator.id}')
-        self.__database.connection.commit()
+        return self.__database.cursor.execute(f'SELECT FROM {self.__table_name} WHERE id = {administrator.id}').fetchone()
+        
 
     def list(self):
-        self.__database.connection.execute(f'SELECT * FROM {self.__table_name}')
-        self.__database.connection.commit()
+        return self.__database.cursor.execute(f'SELECT * FROM {self.__table_name}').fetchall()
+        
