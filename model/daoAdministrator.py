@@ -35,8 +35,8 @@ class DaoAdministrator(AbstractDao):
         self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
         self.__database.connection.commit()
 
-    def read(self, administrator: Administrator):
-        return self.__database.cursor.execute(f'SELECT FROM {self.__table_name} WHERE id = {administrator.id}').fetchone()
+    def read(self, id: int):
+        return self.__database.cursor.execute(f'SELECT FROM {self.__table_name} WHERE id = {id}').fetchone()
         
 
     def list(self):
