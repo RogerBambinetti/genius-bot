@@ -1,7 +1,16 @@
 class User:
     def __init__(self, name, username):
+        self.__id = None
         self.__name = name
         self.__username = username
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @property
     def name(self):

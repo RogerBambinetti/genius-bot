@@ -2,18 +2,9 @@ from model.user import User
 
 class Administrator(User):
     def __init__(self, name, username, email, password):
-        self.__id = None
         super().__init__(name, username)
         self.__email = email
         self.__password = password
-
-    @property
-    def id(self):
-        return self.__id
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
 
     @property
     def email(self):
