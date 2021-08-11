@@ -7,10 +7,12 @@ class DaoAdministrator(AbstractDao):
     def __init__(self):
         self.__database = Db
         self.__table_name = 'administrator'
+        self.__records = []
 
         fields = 'id integer NOT NULL, name varchar(255) NOT NULL, username varchar(255) NOT NULL, email varchar(255) NOT NULL,  password varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'        
         self.__database.cursor.execute(f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
         self.__database.connection.commit()
+        self.populate()
 
     @property
     def database(self):
@@ -24,6 +26,7 @@ class DaoAdministrator(AbstractDao):
         self.__database.connection.commit()
 
         administrator.id = self.__database.cursor.lastrowid
+        self.__records.append(administrator)
 
     def update(self, administrator: Administrator):
         fields = f'name = "{administrator.name}", username = "{administrator.username}", email = "{administrator.email}", password = "{administrator.password}"'
@@ -35,10 +38,20 @@ class DaoAdministrator(AbstractDao):
         self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
         self.__database.connection.commit()
 
+        self.__records.remove(administrator)
+
     def read(self, id: int):
-        return self.__database.cursor.execute(f'SELECT FROM {self.__table_name} WHERE id = {id}').fetchone()
+        for record in self.__records:
+            if(record.id == id):
+                return record
         
 
     def list(self):
-        return self.__database.cursor.execute(f'SELECT * FROM {self.__table_name}').fetchall()
+        return self.__records
         
+    def populate(self):
+        records = self.__database.cursor.execute(f'SELECT * FROM {self.__table_name}').fetchall()
+
+        for record in records:
+            object = Administrator(record[0],record[1],record[2],record[3])
+            self.__records.append(object)
