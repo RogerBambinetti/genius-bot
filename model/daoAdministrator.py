@@ -1,3 +1,4 @@
+from sqlite3 import OperationalError
 from model.abstractDao import AbstractDao
 from database.db import Db
 from model.administrator import Administrator
@@ -22,23 +23,38 @@ class DaoAdministrator(AbstractDao):
         fields = 'name, username, email, password'
         values = f'"{administrator.name}","{administrator.username}","{administrator.email}","{administrator.password}"'
         
-        self.__database.cursor.execute(f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
-        self.__database.connection.commit()
+        try:
+            self.__database.cursor.execute(f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
+            self.__database.connection.commit()
 
-        administrator.id = self.__database.cursor.lastrowid
-        self.__records.append(administrator)
+            administrator.id = self.__database.cursor.lastrowid
+            self.__records.append(administrator)
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def update(self, administrator: Administrator):
         fields = f'name = "{administrator.name}", username = "{administrator.username}", email = "{administrator.email}", password = "{administrator.password}"'
         
-        self.__database.cursor.execute(f'UPDATE {self.__table_name} SET {fields} WHERE id = {administrator.id}')
-        self.__database.connection.commit()
+        try:
+            self.__database.cursor.execute(f'UPDATE {self.__table_name} SET {fields} WHERE id = {administrator.id}')
+            self.__database.connection.commit()
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def delete(self, administrator: Administrator):
-        self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
-        self.__database.connection.commit()
-
-        self.__records.remove(administrator)
+        try:
+            self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
+            self.__database.connection.commit()
+            
+            self.__records.remove(administrator)
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False        
 
     def read(self, id: int):
         for record in self.__records:
