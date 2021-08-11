@@ -72,3 +72,5 @@ class DaoPlayer(AbstractDao):
             object = Player(record[1],record[2])
             object.id = record[0]
             self.__records.append(object)
+
+Dao = DaoPlayer()

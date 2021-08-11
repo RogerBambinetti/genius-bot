@@ -72,3 +72,5 @@ class DaoAdministrator(AbstractDao):
             object = Administrator(record[1],record[2],record[3],record[4])
             object.id = record[0]
             self.__records.append(object)
+
+Dao = DaoAdministrator()
