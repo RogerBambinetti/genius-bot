@@ -53,5 +53,6 @@ class DaoAdministrator(AbstractDao):
         records = self.__database.cursor.execute(f'SELECT * FROM {self.__table_name}').fetchall()
 
         for record in records:
-            object = Administrator(record[0],record[1],record[2],record[3])
+            object = Administrator(record[1],record[2],record[3],record[4])
+            object.id = record[0]
             self.__records.append(object)
