@@ -50,7 +50,9 @@ class DaoPlayer(AbstractDao):
             self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {player.id}')
             self.__database.connection.commit()
             
-            self.__records.remove(player)
+            for record in self.__records:
+                if(record.id == player.id):
+                    self.__records.remove(record)
             return True
         except OperationalError as error:
             self.__database.connection.rollback()

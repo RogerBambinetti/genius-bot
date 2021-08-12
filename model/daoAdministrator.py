@@ -50,7 +50,9 @@ class DaoAdministrator(AbstractDao):
             self.__database.cursor.execute(f'DELETE FROM {self.__table_name} WHERE id = {administrator.id}')
             self.__database.connection.commit()
             
-            self.__records.remove(administrator)
+            for record in self.__records:
+                if(record.id == administrator.id):
+                    self.__records.remove(record)
             return True
         except OperationalError as error:
             self.__database.connection.rollback()
