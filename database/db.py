@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Database():
     def __init__(self):
         self.__connection = sqlite3.connect('./database/database.db')
@@ -13,6 +12,5 @@ class Database():
     @property
     def cursor(self):
         return self.__cursor
-
 
 Db = Database()
