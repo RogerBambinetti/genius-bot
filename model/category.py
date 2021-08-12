@@ -11,7 +11,7 @@ class Category:
         return self.__id
 
     @id.setter
-    def id(self, id):
+    def id(self, id: int):
         self.__id = id
 
     @property

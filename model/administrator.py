@@ -1,7 +1,8 @@
 from model.user import User
 
+
 class Administrator(User):
-    def __init__(self, name, username, email, password):
+    def __init__(self, name: str, username: str, email: str, password: str):
         super().__init__(name, username)
         self.__email = email
         self.__password = password
@@ -11,7 +12,7 @@ class Administrator(User):
         return self.__email
 
     @email.setter
-    def email(self, email):
+    def email(self, email: str):
         self.__email = email
 
     @property
@@ -19,5 +20,5 @@ class Administrator(User):
         return self.__password
 
     @password.setter
-    def password(self, password):
+    def password(self, password: str):
         self.__password = password

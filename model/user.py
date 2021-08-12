@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, name, username):
+    def __init__(self, name: str, username: str):
         self.__id = None
         self.__name = name
         self.__username = username
@@ -9,7 +9,7 @@ class User:
         return self.__id
 
     @id.setter
-    def id(self, id):
+    def id(self, id: int):
         self.__id = id
 
     @property
@@ -17,7 +17,7 @@ class User:
         return self.__name
 
     @name.setter
-    def name(self, name):
+    def name(self, name: str):
         self.__name = name
 
     @property
@@ -25,5 +25,5 @@ class User:
         return self.__username
 
     @username.setter
-    def username(self, username):
+    def username(self, username: str):
         self.__username = username
