@@ -44,7 +44,11 @@ class ControllerQuestion:
 
     def readRandom(self):
         list = self.__dao.list()
-        return random.choice(list)
+        
+        if(list):
+            return random.choice(list)
+        else:
+            return False
 
     def list(self):
         return self.__dao.list()

@@ -1,4 +1,3 @@
-from model.bot import Bot
+from view.viewBot import ViewBot
 
-
-print(Bot().api)
+ViewBot()
