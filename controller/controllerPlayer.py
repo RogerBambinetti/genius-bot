@@ -1,11 +1,11 @@
 from model.player import Player
-from model.daoPlayer import Dao
+from model.daoPlayer import PlayerDao
 
 
 class ControllerPlayer:
 
     def __init__(self):
-        self.__dao = Dao
+        self.__dao = PlayerDao
 
     def insert(self, name, username):
         player = Player(name, username)

@@ -2,13 +2,13 @@ import random
 from model.question import Question
 from model.category import Category
 from controller.controllerCategory import ControllerCategory
-from model.daoQuestion import Dao
+from model.daoQuestion import QuestionDao
 from datetime import date
 
 
 class ControllerQuestion:
     def __init__(self):
-        self.__dao = Dao
+        self.__dao = QuestionDao
         self.__controllerCategory = ControllerCategory()
 
     def insert(self, description, answer, id_category, points, date):

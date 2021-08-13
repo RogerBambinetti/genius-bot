@@ -16,10 +16,9 @@ class DaoQuestion(AbstractDao):
         self.__database.cursor.execute(
             f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
         self.__database.connection.commit()
-        # self.populate()
+        self.populate()
 
     def insert(self, question: Question):
-        print(question.date)
         fields = 'description, answer, category, points, date'
         values = f'"{question.description}", "{question.answer}", "{question.category.id}", "{question.points}", "{question.date}"'
         try:
@@ -31,7 +30,6 @@ class DaoQuestion(AbstractDao):
             self.__records.append(question)
             return True
         except OperationalError as error:
-            print(error)
             self.__database.connection.rollback()
             return False
 
@@ -74,4 +72,4 @@ class DaoQuestion(AbstractDao):
             self.__records.append(object)
 
 
-DaoQ = DaoQuestion()
+QuestionDao = DaoQuestion()

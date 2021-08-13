@@ -77,4 +77,4 @@ class DaoPlayer(AbstractDao):
             self.__records.append(object)
 
 
-Dao = DaoPlayer()
+PlayerDao = DaoPlayer()
