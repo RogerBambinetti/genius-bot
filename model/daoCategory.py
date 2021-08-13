@@ -16,10 +16,6 @@ class DaoCategory(AbstractDao):
         self.__database.connection.commit()
         self.populate()
 
-    @property
-    def database(self):
-        return self.__database
-
     def insert(self, category: Category):
         fields = 'name'
         values = f'"{category.name}"'
