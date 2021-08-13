@@ -6,7 +6,6 @@ class ControllerPlayer:
 
     def __init__(self):
         self.__dao = Dao
-        self.__view = None
 
     def insert(self, name, username):
         player = Player(name, username)
@@ -26,7 +25,7 @@ class ControllerPlayer:
         player = self.__dao.read(id)
         self.__dao.delete(player)
 
-    def red(self, id: int):
+    def read(self, id: int):
         return self.__dao.read(id)
 
     def list(self):

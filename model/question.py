@@ -5,12 +5,21 @@ from datetime import date
 class Question:
 
     def __init__(self, description: str, answer: str, category: Category, points: int, date: date):
+        self.__id = None
         self.__description = description
         self.__answer = answer
         if isinstance(category, Category):
             self.__category = category
         self.__points = points
         self.__date = date
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id: int):
+        self.__id = id
 
     @property
     def description(self):

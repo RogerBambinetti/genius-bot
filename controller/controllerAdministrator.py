@@ -5,7 +5,6 @@ from model.administrator import Administrator
 class ControllerAdministrator:
     def __init__(self):
         self.__dao = Dao
-        self.__view = None
 
     def insert(self, name, username, email, password):
         administrator = Administrator(name, username, email, password)
@@ -29,7 +28,7 @@ class ControllerAdministrator:
         administrator = self.__dao.read(id)
         self.__dao.delete(administrator)
 
-    def red(self, id: int):
+    def read(self, id: int):
         return self.__dao.read(id)
 
     def list(self):

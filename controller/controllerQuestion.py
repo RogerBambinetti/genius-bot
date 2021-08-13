@@ -1,3 +1,4 @@
+import random
 from model.question import Question
 from model.category import Category
 from controller.controllerCategory import ControllerCategory
@@ -9,7 +10,6 @@ class ControllerQuestion:
     def __init__(self):
         self.__dao = Dao
         self.__controllerCategory = ControllerCategory()
-        self.__view = None
 
     def insert(self, description, answer, id_category, points, date):
         category = self.__controllerCategory.read(id_category)
@@ -39,8 +39,12 @@ class ControllerQuestion:
         question = self.__dao.read(id)
         self.__dao.delete(question)
 
-    def red(self, id: int):
+    def read(self, id: int):
         return self.__dao.read(id)
+
+    def readRandom(self):
+        list = self.__dao.list()
+        return random.choice(list)
 
     def list(self):
         return self.__dao.list()

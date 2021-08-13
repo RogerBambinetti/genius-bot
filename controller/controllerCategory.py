@@ -6,7 +6,6 @@ class ControllerCategory:
 
     def __init__(self):
         self.__dao = Dao
-        self.__view = None
 
     def insert(self, name):
         category = Category(name)
@@ -22,7 +21,7 @@ class ControllerCategory:
         category = self.__dao.read(id)
         self.__dao.delete(category)
 
-    def red(self, id: int):
+    def read(self, id: int):
         return self.__dao.read(id)
 
     def list(self):
