@@ -2,7 +2,7 @@ from model.daoAdministrator import Dao
 from model.administrator import Administrator
 
 
-class ControllerAdministrator():
+class ControllerAdministrator:
     def __init__(self):
         self.__dao = Dao
         self.__view = None
