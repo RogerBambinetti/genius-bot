@@ -1,13 +1,9 @@
 from abc import ABC, abstractmethod
 
+
 class AbstractDao(ABC):
     @abstractmethod
     def __init__(self):
-        pass
-
-    @property
-    @abstractmethod
-    def database(self):
         pass
 
     @abstractmethod
