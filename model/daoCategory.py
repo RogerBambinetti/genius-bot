@@ -1,3 +1,4 @@
+from sqlite3 import OperationalError
 from model.abstractDao import AbstractDao
 from database.db import Db
 from model.category import Category
@@ -22,27 +23,42 @@ class DaoCategory(AbstractDao):
     def insert(self, category: Category):
         fields = 'name'
         values = f'"{category.name}"'
+        try:
+            self.__database.cursor.execute(
+                f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
+            self.__database.connection.commit()
 
-        self.__database.cursor.execute(
-            f'INSERT INTO {self.__table_name} ({fields}) VALUES({values})')
-        self.__database.connection.commit()
-
-        category.id = self.__database.cursor.lastrowid
-        self.__records.append(category)
+            category.id = self.__database.cursor.lastrowid
+            self.__records.append(category)
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def update(self, category: Category):
         fields = f'name = "{category.name}"'
-
-        self.__database.cursor.execute(
-            f'UPDATE {self.__table_name} SET {fields} WHERE id = {category.id}')
-        self.__database.connection.commit()
+        try:
+            self.__database.cursor.execute(
+                f'UPDATE {self.__table_name} SET {fields} WHERE id = {category.id}')
+            self.__database.connection.commit()
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def delete(self, category: Category):
-        self.__database.cursor.execute(
-            f'DELETE FROM {self.__table_name} WHERE id = {category.id}')
-        self.__database.connection.commit()
+        try:
+            self.__database.cursor.execute(
+                f'DELETE FROM {self.__table_name} WHERE id = {category.id}')
+            self.__database.connection.commit()
 
-        self.__records.remove(category)
+            for record in self.__records:
+                if(record.id == category.id):
+                    self.__records.remove(record)
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def read(self, id: int):
         for record in self.__records:
