@@ -22,6 +22,6 @@ Uma vez que as dependências estiverem instaladas, é possível rodar o projeto 
 python3 main.py
 ```
 
-## License
+## Licença
 
 MIT
