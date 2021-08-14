@@ -1,4 +1,4 @@
-from threading import Timer
+import time
 from datetime import date
 from controller.controllerBot import ControllerBot
 from controller.controllerAnswer import ControllerAnswer
@@ -30,7 +30,8 @@ class ViewBot():
                 self.__last_tweet = tweet.id_str
                 print('perguntou')
 
-        #Timer(30.0, self.verifyAnswers, ()).start()
+        time.sleep(30)
+        self.verifyAnswers()
     
     def verifyAnswers(self):
         replies = self.__controllerBot.getTweetReplies(self.__last_tweet)
@@ -42,8 +43,8 @@ class ViewBot():
                 player = self.__controllerPlayer.readByUsername(reply.author.screen_name)
             
             if self.__controllerAnswer.insert(reply.text,player.id, self.__last_question, date.today()):
-                self.__controllerBot.likeTweet(reply.id_str)
+
                 if self.__controllerAnswer.verifyAnswer(player.id, self.__last_question):
                     self.__controllerBot.likeTweet(reply.id_str)
 
-        #self.initQuestionSchedule()
+        self.initQuestionSchedule()
