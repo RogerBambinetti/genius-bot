@@ -60,3 +60,10 @@ class Question:
     @date.setter
     def date(self, date: date):
         self.__date = date
+
+    def __str__ (self):
+        string = f'id: {self.__id} \n'  
+        string += f'descrição: {self.__description} \n'
+        string += f'resposta: {self.__answer} \n'
+
+        return string

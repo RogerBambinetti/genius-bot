@@ -46,4 +46,7 @@ class ViewCategory():
         return self.__controller_category.delete(id)
 
     def list(self):
-        return self.__controller_category.list()
+        list = self.__controller_category.list()
+
+        for item in list:
+            print(item)

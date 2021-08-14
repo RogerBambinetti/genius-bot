@@ -55,4 +55,7 @@ class ViewAdministrator():
         return self.__controller_administrator.delete(id)
 
     def list(self):
-        return self.__controller_administrator.list()
+        list = self.__controller_administrator.list()
+
+        for item in list:
+            print(item)

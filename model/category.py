@@ -21,3 +21,9 @@ class Category:
     @name.setter
     def name(self, name: str):
         self.__name = name
+
+    def __str__ (self):
+        string = f'id: {self.__id} \n'  
+        string += f'nome: {self.__name} \n'
+
+        return string

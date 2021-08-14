@@ -22,3 +22,11 @@ class Administrator(User):
     @password.setter
     def password(self, password: str):
         self.__password = password
+
+    def __str__ (self):
+        string = f'id: {self.__id} \n'  
+        string += f'nome: {self.__name} \n',
+        string += f'username: {self.__username} \n',
+        string += f'e-mail: {self.__email} \n'
+
+        return string

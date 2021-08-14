@@ -67,4 +67,7 @@ class ViewQuestion():
         return self.__controller_question.delete(id)
 
     def list(self):
-        return self.__controller_question.list()
+        list = self.__controller_question.list()
+
+        for item in list:
+            print(item)
