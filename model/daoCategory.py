@@ -10,11 +10,14 @@ class DaoCategory(AbstractDao):
         self.__table_name = 'category'
         self.__records = []
 
-        fields = 'id integer NOT NULL, name varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'
-        self.__database.cursor.execute(
-            f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
-        self.__database.connection.commit()
-        self.populate()
+        try:
+            fields = 'id integer NOT NULL, name varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'
+            self.__database.cursor.execute(
+                f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
+            self.__database.connection.commit()
+            self.populate()
+        except OperationalError as error:
+            self.__database.connection.rollback()
 
     def insert(self, category: Category):
         fields = 'name'
@@ -65,13 +68,18 @@ class DaoCategory(AbstractDao):
         return self.__records
 
     def populate(self):
-        records = self.__database.cursor.execute(
-            f'SELECT * FROM {self.__table_name}').fetchall()
+        try:
+            records = self.__database.cursor.execute(
+                f'SELECT * FROM {self.__table_name}').fetchall()
 
-        for record in records:
-            object = Category(record[1])
-            object.id = record[0]
-            self.__records.append(object)
+            for record in records:
+                object = Category(record[1])
+                object.id = record[0]
+                self.__records.append(object)
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
 
 CategoryDao = DaoCategory()

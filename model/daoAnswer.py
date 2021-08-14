@@ -13,12 +13,14 @@ class DaoAnswer(AbstractDao):
         self.__records = []
         self.__dao_question = QuestionDao
         self.__dao_player = PlayerDao
-
-        fields = 'id integer NOT NULL, alternative varchar(255) NOT NULL, player integer NOT NULL, question integer NOT NULL, date date NOT NULL, PRIMARY KEY(id AUTOINCREMENT), FOREIGN KEY(player) REFERENCES player(id), FOREIGN KEY(question) REFERENCES question(id)'
-        self.__database.cursor.execute(
-            f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
-        self.__database.connection.commit()
-        self.populate()
+        try:
+            fields = 'id integer NOT NULL, alternative varchar(255) NOT NULL, player integer NOT NULL, question integer NOT NULL, date date NOT NULL, PRIMARY KEY(id AUTOINCREMENT), FOREIGN KEY(player) REFERENCES player(id), FOREIGN KEY(question) REFERENCES question(id)'
+            self.__database.cursor.execute(
+                f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
+            self.__database.connection.commit()
+            self.populate()
+        except OperationalError as error:
+            self.__database.connection.rollback()
 
     def insert(self, answer: Answer):
         fields = 'alternative, player, question, date'
@@ -70,18 +72,23 @@ class DaoAnswer(AbstractDao):
         return self.__records
 
     def populate(self):
-        records = self.__database.cursor.execute(
-            f'SELECT * FROM {self.__table_name}').fetchall()
+        try:
+            records = self.__database.cursor.execute(
+                f'SELECT * FROM {self.__table_name}').fetchall()
 
-        for record in records:
+            for record in records:
 
-            player = self.__dao_player.read(record[2])
-            question = self.__dao_question.read(record[3])
+                player = self.__dao_player.read(record[2])
+                question = self.__dao_question.read(record[3])
 
-            object = Answer(record[1], player,
-                            question, record[4])
-            object.id = record[0]
-            self.__records.append(object)
+                object = Answer(record[1], player,
+                                question, record[4])
+                object.id = record[0]
+                self.__records.append(object)
+                return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
 
 AnswerDao = DaoAnswer()
