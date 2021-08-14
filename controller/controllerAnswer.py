@@ -14,10 +14,15 @@ class ControllerAnswer:
         player = self.__controller_player.read(id_player)
         question = self.__controller_question.read(id_question)
         if player and question:
-            alternative = alternative.replace(
-                '@thegeniusbot', '').strip().upper()
-            answer = Answer(alternative, player, question, date)
-            self.__dao.insert(answer)
+            list = self.__dao.list
+            for answer in list:
+                if answer.question != question or answer.player != player:
+                    alternative = alternative.replace(
+                        '@thegeniusbot', '').strip().upper()
+                    answer = Answer(alternative, player, question, date)
+                    return self.__dao.insert(answer)
+                else:
+                    return False
 
     def update(self, id: int, alternative=None, id_player=None, id_question=None, date=None):
         answer = self.__dao.read(id)
@@ -37,11 +42,11 @@ class ControllerAnswer:
         if date:
             answer.date = date
 
-        self.__dao.update(answer)
+        return self.__dao.update(answer)
 
     def delete(self, id: int):
         answer = self.__dao.read(id)
-        self.__dao.delete(answer)
+        return self.__dao.delete(answer)
 
     def read(self, id: int):
         return self.__dao.read(id)
@@ -49,6 +54,12 @@ class ControllerAnswer:
     def list(self):
         return self.__dao.list()
 
-    def verifyAnswer(self, id: int):
-        answer = self.__dao.read(id)
-        return answer.verifyAnswer()
+    def verifyAnswer(self, id_player, id_question):
+        player = self.__controller_player.read(id_player)
+        question = self.__controller_question.read(id_question)
+        list = self.__dao.list
+        for answer in list:
+            if answer.question == question and answer.player == player:
+                return answer.verifyAnswer()
+            else:
+                return False

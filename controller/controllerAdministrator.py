@@ -8,7 +8,7 @@ class ControllerAdministrator:
 
     def insert(self, name, username, email, password):
         administrator = Administrator(name, username, email, password)
-        self.__dao.insert(administrator)
+        return self.__dao.insert(administrator)
 
     def update(self, id: int, name=None, username=None, email=None, password=None):
         administrator = self.__dao.read(id)
@@ -22,11 +22,11 @@ class ControllerAdministrator:
         if password:
             administrator.password = password
 
-        self.__dao.update(administrator)
+        return self.__dao.update(administrator)
 
     def delete(self, id: int):
         administrator = self.__dao.read(id)
-        self.__dao.delete(administrator)
+        return self.__dao.delete(administrator)
 
     def read(self, id: int):
         return self.__dao.read(id)

@@ -9,7 +9,7 @@ class ControllerPlayer:
 
     def insert(self, name, username):
         player = Player(name, username)
-        self.__dao.insert(player)
+        return self.__dao.insert(player)
 
     def update(self, id: int, name=None, username=None):
         player = self.__dao.read(id)
@@ -19,11 +19,11 @@ class ControllerPlayer:
         if username:
             player.username = username
 
-        self.__dao.update(player)
+        return self.__dao.update(player)
 
     def delete(self, id: int):
         player = self.__dao.read(id)
-        self.__dao.delete(player)
+        return self.__dao.delete(player)
 
     def read(self, id: int):
         return self.__dao.read(id)

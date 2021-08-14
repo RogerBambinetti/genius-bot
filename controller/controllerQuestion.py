@@ -13,7 +13,7 @@ class ControllerQuestion:
         category = self.__controller_category.read(id_category)
         if category:
             question = Question(description, answer, category, points, date)
-            self.__dao.insert(question)
+            return self.__dao.insert(question)
 
     def update(self, id: int, description=None, answer=None, id_category=None, points=None, date=None):
         question = self.__dao.read(id)
@@ -31,11 +31,11 @@ class ControllerQuestion:
         if date:
             question.date = date
 
-        self.__dao.update(question)
+        return self.__dao.update(question)
 
     def delete(self, id: int):
         question = self.__dao.read(id)
-        self.__dao.delete(question)
+        return self.__dao.delete(question)
 
     def read(self, id: int):
         return self.__dao.read(id)
