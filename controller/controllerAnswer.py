@@ -61,5 +61,3 @@ class ControllerAnswer:
         for answer in list:
             if answer.question == question and answer.player == player:
                 return answer.verifyAnswer()
-            else:
-                return False

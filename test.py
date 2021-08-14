@@ -8,7 +8,7 @@ from datetime import date
 # player = Player("teste", "teste")
 # PlayerDao.insert(player)
 
-# c = ControllerAnswer()
+c = ControllerAnswer()
 # c.insert("b", 1, 1, date(2021, 8, 14))
 
-# print(c.verifyAnswer(3))
+print(c.verifyAnswer(2, 7))
