@@ -1,5 +1,5 @@
-from view.viewBot import ViewBot
+from controller.controllerRanking import ControllerRanking
 
-view = ViewBot()
+controller = ControllerRanking()
 
-teste = input('aaaaaaa')
+print(controller.getDailyRanking())

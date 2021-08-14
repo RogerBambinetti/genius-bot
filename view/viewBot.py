@@ -42,7 +42,7 @@ class ViewBot():
                 self.__controllerPlayer.insert(reply.author.name, reply.author.screen_name)
                 player = self.__controllerPlayer.readByUsername(reply.author.screen_name)
             
-            if self.__controllerAnswer.insert(reply.text,player.id, self.__last_question, date.today()):
+            if self.__controllerAnswer.insert(reply.text,player.id, self.__last_question, date.today().strftime("%m/%d/%Y")):
 
                 if self.__controllerAnswer.verifyAnswer(player.id, self.__last_question):
                     self.__controllerBot.likeTweet(reply.id_str)
