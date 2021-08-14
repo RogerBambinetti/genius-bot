@@ -1,11 +1,15 @@
 from threading import Timer
 from controller.controllerBot import ControllerBot
+from controller.controllerAnswer import ControllerAnswer
+from controller.controllerPlayer import ControllerPlayer
 from controller.controllerQuestion import ControllerQuestion
 
 class ViewBot():
     def __init__(self):
         self.__controllerBot =  ControllerBot()
         self.__controllerQuestion = ControllerQuestion()
+        self.__controllerAnswer =  ControllerAnswer()
+        self.__controllerPlayer =  ControllerPlayer()
         self.__last_question = None
         self.__last_tweet = None
         
@@ -31,8 +35,13 @@ class ViewBot():
         replies = self.__controllerBot.getTweetReplies(self.__last_tweet)
         
         for reply in replies:
-            self.__controllerQuestion.verifyAnswer(self.__last_question, reply.text)
-            print(reply.text)
-            print(reply.author.screen_name)
-        
+            player = self.__controllerPlayer.readByUsername(reply.author.screen_name)
+            if (not player):
+                player = self.__controllerPlayer.insert(reply.name, reply.author.screen_name)
+            
+            if self.__controllerAnswer.insert(reply.text,player.id, self.__last_question):
+
+                if self.__controllerAnswer.verifyAnswer(player.id, self.__last_question):
+                    self.__controllerBot.likeTweet(reply.id_str)
+
         self.initQuestionSchedule()

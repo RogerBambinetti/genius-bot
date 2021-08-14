@@ -28,5 +28,13 @@ class ControllerPlayer:
     def read(self, id: int):
         return self.__dao.read(id)
 
+    def readByUsername(self, username):
+        players = self.__dao.list()
+        
+        for player in self.__players:
+            if(player.username == id):
+                return player
+
+
     def list(self):
         return self.__dao.list()
