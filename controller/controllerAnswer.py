@@ -14,7 +14,7 @@ class ControllerAnswer:
         player = self.__controller_player.read(id_player)
         question = self.__controller_question.read(id_question)
         if player and question:
-            list = self.__dao.list
+            list = self.__dao.list()
             for answer in list:
                 if answer.question != question or answer.player != player:
                     alternative = alternative.replace(
@@ -57,7 +57,7 @@ class ControllerAnswer:
     def verifyAnswer(self, id_player, id_question):
         player = self.__controller_player.read(id_player)
         question = self.__controller_question.read(id_question)
-        list = self.__dao.list
+        list = self.__dao.list()
         for answer in list:
             if answer.question == question and answer.player == player:
                 return answer.verifyAnswer()

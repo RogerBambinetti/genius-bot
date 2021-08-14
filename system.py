@@ -1,3 +1,7 @@
 from view.viewBot import ViewBot
 
-ViewBot()
+view = ViewBot()
+
+teste = input('aaaaaaa')
+
+view.verifyAnswers()
