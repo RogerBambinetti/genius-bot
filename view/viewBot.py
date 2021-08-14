@@ -25,12 +25,13 @@ class ViewBot():
                 self.__last_tweet = tweet.id_str
                 print('perguntou')
 
-        Timer(30.0, self.verifyAnswers, ()).start()
+        Timer(20.0, self.verifyAnswers, ()).start()
     
     def verifyAnswers(self):
         replies = self.__controllerBot.getTweetReplies(self.__last_tweet)
         
         for reply in replies:
+            self.__controllerQuestion.verifyAnswer(self.__last_question, reply.text)
             print(reply.text)
             print(reply.author.screen_name)
         

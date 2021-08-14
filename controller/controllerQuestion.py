@@ -52,3 +52,16 @@ class ControllerQuestion:
 
     def list(self):
         return self.__dao.list()
+
+    def verifyAnswer(self, id, answer: str):
+        question = self.__dao.read(id)
+        
+        answer = answer.replace('@thegeniusbot','')
+        answer = answer.strip()
+        answer = answer.upper()
+
+        if question.answer == answer:
+            return True
+        else:
+            return False
+
