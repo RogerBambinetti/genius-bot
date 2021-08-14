@@ -25,3 +25,7 @@ class AbstractDao(ABC):
     @abstractmethod
     def list(self):
         pass
+
+    @abstractmethod
+    def populate(self):
+        pass

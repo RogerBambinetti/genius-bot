@@ -12,11 +12,14 @@ class DaoQuestion(AbstractDao):
         self.__records = []
         self.__dao_category = CategoryDao
 
-        fields = 'id integer NOT NULL, description varchar(255) NOT NULL, answer varchar(255) NOT NULL, category integer NOT NULL, points integer NOT NULL, date date NOT NULL, PRIMARY KEY(id AUTOINCREMENT), FOREIGN KEY(category) REFERENCES category(id)'
-        self.__database.cursor.execute(
-            f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
-        self.__database.connection.commit()
-        self.populate()
+        try:
+            fields = 'id integer NOT NULL, description varchar(255) NOT NULL, answer varchar(255) NOT NULL, category integer NOT NULL, points integer NOT NULL, date date NOT NULL, PRIMARY KEY(id AUTOINCREMENT), FOREIGN KEY(category) REFERENCES category(id)'
+            self.__database.cursor.execute(
+                f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
+            self.__database.connection.commit()
+            self.populate()
+        except OperationalError as error:
+            self.__database.connection.rollback()
 
     def insert(self, question: Question):
         fields = 'description, answer, category, points, date'
@@ -69,17 +72,22 @@ class DaoQuestion(AbstractDao):
         return self.__records
 
     def populate(self):
-        records = self.__database.cursor.execute(
-            f'SELECT * FROM {self.__table_name}').fetchall()
+        try:
+            records = self.__database.cursor.execute(
+                f'SELECT * FROM {self.__table_name}').fetchall()
 
-        for record in records:
+            for record in records:
 
-            category = self.__dao_category.read(record[3])
+                category = self.__dao_category.read(record[3])
 
-            object = Question(record[1], record[2],
-                              category, record[4], record[5])
-            object.id = record[0]
-            self.__records.append(object)
+                object = Question(record[1], record[2],
+                                  category, record[4], record[5])
+                object.id = record[0]
+                self.__records.append(object)
+                return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
 
 QuestionDao = DaoQuestion()

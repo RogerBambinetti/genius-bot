@@ -10,12 +10,14 @@ class DaoAdministrator(AbstractDao):
         self.__database = Db
         self.__table_name = 'administrator'
         self.__records = []
-
-        fields = 'id integer NOT NULL, name varchar(255) NOT NULL, username varchar(255) NOT NULL, email varchar(255) NOT NULL,  password varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'
-        self.__database.cursor.execute(
-            f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
-        self.__database.connection.commit()
-        self.populate()
+        try:
+            fields = 'id integer NOT NULL, name varchar(255) NOT NULL, username varchar(255) NOT NULL, email varchar(255) NOT NULL,  password varchar(255) NOT NULL, PRIMARY KEY(id AUTOINCREMENT)'
+            self.__database.cursor.execute(
+                f'CREATE TABLE IF NOT EXISTS {self.__table_name} ({fields})')
+            self.__database.connection.commit()
+            self.populate()
+        except OperationalError as error:
+            self.__database.connection.rollback()
 
     def insert(self, administrator: Administrator):
         fields = 'name, username, email, password'
@@ -68,13 +70,19 @@ class DaoAdministrator(AbstractDao):
         return self.__records
 
     def populate(self):
-        records = self.__database.cursor.execute(
-            f'SELECT * FROM {self.__table_name}').fetchall()
+        try:
+            records = self.__database.cursor.execute(
+                f'SELECT * FROM {self.__table_name}').fetchall()
 
-        for record in records:
-            object = Administrator(record[1], record[2], record[3], record[4])
-            object.id = record[0]
-            self.__records.append(object)
+            for record in records:
+                object = Administrator(
+                    record[1], record[2], record[3], record[4])
+                object.id = record[0]
+                self.__records.append(object)
+                return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
 
 AdministratorDao = DaoAdministrator()
