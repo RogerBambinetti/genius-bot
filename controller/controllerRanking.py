@@ -12,7 +12,7 @@ class ControllerRanking():
         dailyAnswers = []
         for answer in answers:
 
-            today = date.today().strftime("%m/%d/%Y")
+            today = date.today().strftime("%d/%m/%Y")
             if(answer.date == today):
                 dailyAnswers.append(answer)
         
@@ -46,10 +46,10 @@ class ControllerRanking():
                     players[j] = players[j+1]
                     players[j+1] = oldPlayer
         
-        ranking = f'Ranking Diário - {today} \n'
+        ranking = f'🏆 Ranking Diário - {today} 🏆\n'
         for i in range(10):
             if(i < len(players)):
-                ranking += f'{players[i].username}: {scores[i]} pontos \n'
+                ranking += f'@{players[i].username}: {scores[i]} pontos \n'
 
         return ranking
             
