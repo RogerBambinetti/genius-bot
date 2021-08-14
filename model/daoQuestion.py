@@ -30,6 +30,7 @@ class DaoQuestion(AbstractDao):
             self.__records.append(question)
             return True
         except OperationalError as error:
+            print(error)
             self.__database.connection.rollback()
             return False
 

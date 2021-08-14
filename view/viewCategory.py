@@ -1,12 +1,12 @@
-from controller.controllerAdministrator import ControllerAdministrator
+from controller.controllerCategory import ControllerCategory
 
 
-class ViewAdministrator():
+class ViewCategory():
     def __init__(self):
-        self.__controller_administrator = ControllerAdministrator()
+        self.__controller_category = ControllerCategory()
 
     def options(self):
-        print("-------- ADMINISTRADOR ----------")
+        print("-------- CATEGORIA ----------")
         print("1 - Inserir")
         print("2 - Editar")
         print("3 - Excluir")
@@ -29,30 +29,21 @@ class ViewAdministrator():
 
     def insert(self):
         name = input("Nome: ")
-        username = input("Username: ")
-        email = input("Email: ")
-        password = input("Senha: ")
 
-        return self.__controller_administrator.insert(name, username, email, password)
+        return self.__controller_category.insert(name)
 
     def update(self):
-
         id = input('Identificador: ')
 
         print("Preencher apenas os campos que deseja alterar: ")
         name = input("Nome: ")
-        username = input("Username: ")
-        email = input("Email: ")
-        password = input("Senha: ")
 
-        return self.__controller_administrator.update(
-            id, name, username, email, password)
+        return self.__controller_category.update(id, name)
 
     def delete(self):
-
         id = input('Identificador: ')
 
-        return self.__controller_administrator.delete(id)
+        return self.__controller_category.delete(id)
 
     def list(self):
-        return self.__controller_administrator.list()
+        return self.__controller_category.list()

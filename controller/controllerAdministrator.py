@@ -31,5 +31,12 @@ class ControllerAdministrator:
     def read(self, id: int):
         return self.__dao.read(id)
 
+    def readByUsername(self, username):
+        administrators = self.__dao.list()
+
+        for administrator in administrators:
+            if(administrator.username == username):
+                return administrator
+
     def list(self):
         return self.__dao.list()
