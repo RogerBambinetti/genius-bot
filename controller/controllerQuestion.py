@@ -1,18 +1,16 @@
 import random
 from model.question import Question
-from model.category import Category
 from controller.controllerCategory import ControllerCategory
 from model.daoQuestion import QuestionDao
-from datetime import date
 
 
 class ControllerQuestion:
     def __init__(self):
         self.__dao = QuestionDao
-        self.__controllerCategory = ControllerCategory()
+        self.__controller_category = ControllerCategory()
 
     def insert(self, description, answer, id_category, points, date):
-        category = self.__controllerCategory.read(id_category)
+        category = self.__controller_category.read(id_category)
         if category:
             question = Question(description, answer, category, points, date)
             self.__dao.insert(question)
@@ -25,7 +23,7 @@ class ControllerQuestion:
         if answer:
             question.answer = answer
         if id_category:
-            category = self.__controllerCategory.read(id_category)
+            category = self.__controller_category.read(id_category)
             if category:
                 question.category = category
         if points:
@@ -44,7 +42,7 @@ class ControllerQuestion:
 
     def readRandom(self):
         list = self.__dao.list()
-        
+
         if(list):
             return random.choice(list)
         else:
@@ -52,16 +50,3 @@ class ControllerQuestion:
 
     def list(self):
         return self.__dao.list()
-
-    def verifyAnswer(self, id, answer: str):
-        question = self.__dao.read(id)
-        
-        answer = answer.replace('@thegeniusbot','')
-        answer = answer.strip()
-        answer = answer.upper()
-
-        if question.answer == answer:
-            return True
-        else:
-            return False
-

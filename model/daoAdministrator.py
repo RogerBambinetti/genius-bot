@@ -77,4 +77,4 @@ class DaoAdministrator(AbstractDao):
             self.__records.append(object)
 
 
-Dao = DaoAdministrator()
+AdministratorDao = DaoAdministrator()

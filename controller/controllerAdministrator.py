@@ -1,10 +1,10 @@
-from model.daoAdministrator import Dao
+from model.daoAdministrator import AdministratorDao
 from model.administrator import Administrator
 
 
 class ControllerAdministrator:
     def __init__(self):
-        self.__dao = Dao
+        self.__dao = AdministratorDao
 
     def insert(self, name, username, email, password):
         administrator = Administrator(name, username, email, password)

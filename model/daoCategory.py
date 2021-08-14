@@ -74,4 +74,4 @@ class DaoCategory(AbstractDao):
             self.__records.append(object)
 
 
-Dao = DaoCategory()
+CategoryDao = DaoCategory()

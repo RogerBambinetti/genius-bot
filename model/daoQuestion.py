@@ -2,7 +2,7 @@ from sqlite3 import OperationalError
 from model.abstractDao import AbstractDao
 from database.db import Db
 from model.question import Question
-from model.daoCategory import Dao
+from model.daoCategory import CategoryDao
 
 
 class DaoQuestion(AbstractDao):
@@ -10,7 +10,7 @@ class DaoQuestion(AbstractDao):
         self.__database = Db
         self.__table_name = 'question'
         self.__records = []
-        self.__dao_category = Dao
+        self.__dao_category = CategoryDao
 
         fields = 'id integer NOT NULL, description varchar(255) NOT NULL, answer varchar(255) NOT NULL, category integer NOT NULL, points integer NOT NULL, date date NOT NULL, PRIMARY KEY(id AUTOINCREMENT), FOREIGN KEY(category) REFERENCES category(id)'
         self.__database.cursor.execute(
@@ -34,7 +34,16 @@ class DaoQuestion(AbstractDao):
             return False
 
     def update(self, question: Question):
-        pass
+        fields = f'description = "{question.description}", answer = "{question.answer}", category = "{question.category.id}", points = "{question.points}", date = "{question.date}"'
+
+        try:
+            self.__database.cursor.execute(
+                f'UPDATE {self.__table_name} SET {fields} WHERE id = {question.id}')
+            self.__database.connection.commit()
+            return True
+        except OperationalError as error:
+            self.__database.connection.rollback()
+            return False
 
     def delete(self, question: Question):
         try:

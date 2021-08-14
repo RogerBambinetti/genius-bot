@@ -1,12 +1,14 @@
+from model.daoPlayer import PlayerDao
+from model.daoAnswer import AnswerDao
+from model.player import Player
+from controller.controllerAnswer import ControllerAnswer
 from datetime import date
-from model.question import Question
-from model.category import Category
-from model.daoCategory import Dao
-from model.daoQuestion import QuestionDao
 
 
-# c1 = Category("teste")
-# Dao.insert(c1)
+# player = Player("teste", "teste")
+# PlayerDao.insert(player)
 
-# q1 = Question("abc", "a", c1, 2, date(2021, 8, 13))
-# print(DaoQ.insert(q1))
+# c = ControllerAnswer()
+# c.insert("b", 1, 1, date(2021, 8, 14))
+
+# print(c.verifyAnswer(3))

@@ -1,11 +1,11 @@
 from model.category import Category
-from model.daoCategory import Dao
+from model.daoCategory import CategoryDao
 
 
 class ControllerCategory:
 
     def __init__(self):
-        self.__dao = Dao
+        self.__dao = CategoryDao
 
     def insert(self, name):
         category = Category(name)
