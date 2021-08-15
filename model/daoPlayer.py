@@ -70,18 +70,14 @@ class DaoPlayer(AbstractDao):
         return self.__records
 
     def populate(self):
-        try:
-            records = self.__database.cursor.execute(
-                f'SELECT * FROM {self.__table_name}').fetchall()
 
-            for record in records:
-                object = Player(record[1], record[2])
-                object.id = record[0]
-                self.__records.append(object)
-            return True
-        except OperationalError as error:
-            self.__database.connection.rollback()
-            return False
+        records = self.__database.cursor.execute(
+            f'SELECT * FROM {self.__table_name}').fetchall()
+
+        for record in records:
+            object = Player(record[1], record[2])
+            object.id = record[0]
+            self.__records.append(object)
 
 
 PlayerDao = DaoPlayer()

@@ -72,23 +72,19 @@ class DaoAnswer(AbstractDao):
         return self.__records
 
     def populate(self):
-        try:
-            records = self.__database.cursor.execute(
-                f'SELECT * FROM {self.__table_name}').fetchall()
 
-            for record in records:
+        records = self.__database.cursor.execute(
+            f'SELECT * FROM {self.__table_name}').fetchall()
 
-                player = self.__dao_player.read(record[2])
-                question = self.__dao_question.read(record[3])
+        for record in records:
 
-                object = Answer(record[1], player,
-                                question, record[4])
-                object.id = record[0]
-                self.__records.append(object)
-                return True
-        except OperationalError as error:
-            self.__database.connection.rollback()
-            return False
+            player = self.__dao_player.read(record[2])
+            question = self.__dao_question.read(record[3])
+
+            object = Answer(record[1], player,
+                            question, record[4])
+            object.id = record[0]
+            self.__records.append(object)
 
 
 AnswerDao = DaoAnswer()
