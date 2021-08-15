@@ -23,8 +23,8 @@ class Administrator(User):
     def password(self, password: str):
         self.__password = password
 
-    def __str__ (self):
-        string = f'id: {self.id} \n'  
+    def __str__(self):
+        string = f'id: {self.id} \n'
         string += f'nome: {self.name} \n'
         string += f'username: {self.username} \n'
         string += f'e-mail: {self.__email} \n'
