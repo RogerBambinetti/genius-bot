@@ -67,7 +67,6 @@ class DaoAdministrator(AbstractDao):
                 return record
 
     def list(self):
-        print(self.__records)
         return self.__records
 
     def populate(self):

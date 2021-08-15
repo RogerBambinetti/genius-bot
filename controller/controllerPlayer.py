@@ -12,21 +12,30 @@ class ControllerPlayer:
         return self.__dao.insert(player)
 
     def update(self, id: int, name=None, username=None):
-        player = self.__dao.read(id)
+        if isinstance(id, int):
+            player = self.__dao.read(id)
 
-        if name:
-            player.name = name
-        if username:
-            player.username = username
+            if name:
+                player.name = name
+            if username:
+                player.username = username
 
-        return self.__dao.update(player)
+            return self.__dao.update(player)
+        else:
+            raise TypeError
 
     def delete(self, id: int):
-        player = self.__dao.read(id)
-        return self.__dao.delete(player)
+        if isinstance(id, int):
+            player = self.__dao.read(id)
+            return self.__dao.delete(player)
+        else:
+            raise TypeError
 
     def read(self, id: int):
-        return self.__dao.read(id)
+        if isinstance(id, int):
+            return self.__dao.read(id)
+        else:
+            raise TypeError
 
     def readByUsername(self, username):
         players = self.__dao.list()
