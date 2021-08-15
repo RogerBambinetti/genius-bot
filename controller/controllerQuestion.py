@@ -11,28 +11,46 @@ class ControllerQuestion:
         self.__controller_category = ControllerCategory()
 
     def insert(self, description: str, answer: str, id_category: int, points: int, date: date):
-        category = self.__controller_category.read(id_category)
-        if category:
-            question = Question(description, answer,
-                                category, points, date)
-            return self.__dao.insert(question)
+        if isinstance(description, str) and isinstance(answer, str) and isinstance(id_category, int) and isinstance(points, int) and isinstance(date, date):
+            category = self.__controller_category.read(id_category)
+            if category:
+                question = Question(description, answer,
+                                    category, points, date)
+                return self.__dao.insert(question)
+        else:
+            raise TypeError
 
     def update(self, id: int, description=None, answer=None, id_category=None, points=None, date=None):
         if isinstance(id, int):
             question = self.__dao.read(id)
 
             if description:
-                question.description = description
+                if isinstance(description, str):
+                    question.description = description
+                else:
+                    raise TypeError
             if answer:
-                question.answer = answer
+                if isinstance(answer, str):
+                    question.answer = answer
+                else:
+                    raise TypeError
             if id_category:
-                category = self.__controller_category.read(id_category)
-                if category:
-                    question.category = category
+                if isinstance(id_category, int):
+                    category = self.__controller_category.read(id_category)
+                    if category:
+                        question.category = category
+                else:
+                    raise TypeError
             if points:
-                question.points = points
+                if isinstance(points, int):
+                    question.points = points
+                else:
+                    raise TypeError
             if date:
-                question.date = date
+                if isinstance(date, date):
+                    question.date = date
+                else:
+                    raise TypeError
 
             return self.__dao.update(question)
         else:

@@ -8,17 +8,26 @@ class ControllerPlayer:
         self.__dao = PlayerDao
 
     def insert(self, name, username):
-        player = Player(name, username)
-        return self.__dao.insert(player)
+        if isinstance(name, str) and isinstance(username, str):
+            player = Player(name, username)
+            return self.__dao.insert(player)
+        else:
+            raise TypeError
 
     def update(self, id: int, name=None, username=None):
         if isinstance(id, int):
             player = self.__dao.read(id)
 
             if name:
-                player.name = name
+                if isinstance(name, str):
+                    player.name = name
+                else:
+                    raise TypeError
             if username:
-                player.username = username
+                if isinstance(username, str):
+                    player.username = username
+                else:
+                    raise TypeError
 
             return self.__dao.update(player)
         else:
@@ -38,11 +47,14 @@ class ControllerPlayer:
             raise TypeError
 
     def readByUsername(self, username):
-        players = self.__dao.list()
+        if isinstance(username, str):
+            players = self.__dao.list()
 
-        for player in players:
-            if(player.username == username):
-                return player
+            for player in players:
+                if(player.username == username):
+                    return player
+        else:
+            raise TypeError
 
     def list(self):
         return self.__dao.list()
