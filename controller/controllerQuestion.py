@@ -11,7 +11,7 @@ class ControllerQuestion:
         self.__controller_category = ControllerCategory()
 
     def insert(self, description: str, answer: str, id_category: int, points: int, date: date):
-        if isinstance(description, str) and isinstance(answer, str) and isinstance(id_category, int) and isinstance(points, int) and isinstance(date, date):
+        if isinstance(description, str) and isinstance(answer, str) and isinstance(id_category, int) and isinstance(points, int):
             category = self.__controller_category.read(id_category)
             if category:
                 question = Question(description, answer,
@@ -47,10 +47,7 @@ class ControllerQuestion:
                 else:
                     raise TypeError
             if date:
-                if isinstance(date, date):
-                    question.date = date
-                else:
-                    raise TypeError
+                question.date = date
 
             return self.__dao.update(question)
         else:

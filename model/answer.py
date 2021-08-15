@@ -9,8 +9,12 @@ class Answer():
         self.__alternative = alternative
         if isinstance(player, Player):
             self.__player = player
+        else:
+            raise TypeError
         if isinstance(question, Question):
             self.__question = question
+        else:
+            raise TypeError
         self.__date = date
 
     @property

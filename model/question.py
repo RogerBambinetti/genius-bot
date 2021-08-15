@@ -10,6 +10,8 @@ class Question:
         self.__answer = answer
         if isinstance(category, Category):
             self.__category = category
+        else:
+            raise TypeError
         self.__points = points
         self.__date = date
 
@@ -61,8 +63,8 @@ class Question:
     def date(self, date: date):
         self.__date = date
 
-    def __str__ (self):
-        string = f'id: {self.__id} \n'  
+    def __str__(self):
+        string = f'id: {self.__id} \n'
         string += f'descrição: {self.__description} \n'
         string += f'resposta: {self.__answer} \n'
 

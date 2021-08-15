@@ -12,7 +12,7 @@ class ControllerAnswer:
         self.__controller_player = ControllerPlayer()
 
     def insert(self, alternative: str, id_player: int, id_question: int, date: date):
-        if isinstance(alternative, str) and isinstance(id_player, int) and isinstance(id_question, int) and isinstance(date, date):
+        if isinstance(alternative, str) and isinstance(id_player, int) and isinstance(id_question, int):
             player = self.__controller_player.read(id_player)
             question = self.__controller_question.read(id_question)
             if player and question:
@@ -54,10 +54,7 @@ class ControllerAnswer:
                 else:
                     raise TypeError
             if date:
-                if isinstance(date, date):
-                    answer.date = date
-                else:
-                    raise TypeError
+                answer.date = date
 
             return self.__dao.update(answer)
         else:
