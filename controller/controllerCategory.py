@@ -1,4 +1,3 @@
-from typing import Type
 from model.category import Category
 from model.daoCategory import CategoryDao
 
