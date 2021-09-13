@@ -1,3 +1,4 @@
+from exception.NotExistsException import NotExistsException
 from model.daoAdministrator import AdministratorDao
 from model.administrator import Administrator
 
@@ -16,41 +17,51 @@ class ControllerAdministrator:
     def update(self, id: int, name=None, username=None, email=None, password=None):
         if isinstance(id, int):
             administrator = self.__dao.read(id)
-            if name:
-                if isinstance(name, str):
-                    administrator.name = name
-                else:
-                    raise TypeError
-            if username:
-                if isinstance(username, str):
-                    administrator.username = username
-                else:
-                    raise TypeError
-            if email:
-                if isinstance(email, str):
-                    administrator.email = email
-                else:
-                    raise TypeError
-            if password:
-                if isinstance(password, str):
-                    administrator.password = password
-                else:
-                    raise TypeError
+            if administrator:
+                if name:
+                    if isinstance(name, str):
+                        administrator.name = name
+                    else:
+                        raise TypeError
+                if username:
+                    if isinstance(username, str):
+                        administrator.username = username
+                    else:
+                        raise TypeError
+                if email:
+                    if isinstance(email, str):
+                        administrator.email = email
+                    else:
+                        raise TypeError
+                if password:
+                    if isinstance(password, str):
+                        administrator.password = password
+                    else:
+                        raise TypeError
 
-            return self.__dao.update(administrator)
+                return self.__dao.update(administrator)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def delete(self, id: int):
         if isinstance(id, int):
             administrator = self.__dao.read(id)
-            return self.__dao.delete(administrator)
+            if administrator:
+                return self.__dao.delete(administrator)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def read(self, id: int):
         if isinstance(id, int):
-            return self.__dao.read(id)
+            administrator = self.__dao.read(id)
+            if administrator:
+                return administrator
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
@@ -61,6 +72,7 @@ class ControllerAdministrator:
             for administrator in administrators:
                 if(administrator.username == username):
                     return administrator
+            raise NotExistsException
         else:
             TypeError
 

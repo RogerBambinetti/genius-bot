@@ -1,3 +1,4 @@
+from exception.NotExistsException import NotExistsException
 from model.player import Player
 from model.daoPlayer import PlayerDao
 
@@ -17,32 +18,41 @@ class ControllerPlayer:
     def update(self, id: int, name=None, username=None):
         if isinstance(id, int):
             player = self.__dao.read(id)
+            if player:
+                if name:
+                    if isinstance(name, str):
+                        player.name = name
+                    else:
+                        raise TypeError
+                if username:
+                    if isinstance(username, str):
+                        player.username = username
+                    else:
+                        raise TypeError
 
-            if name:
-                if isinstance(name, str):
-                    player.name = name
-                else:
-                    raise TypeError
-            if username:
-                if isinstance(username, str):
-                    player.username = username
-                else:
-                    raise TypeError
-
-            return self.__dao.update(player)
+                return self.__dao.update(player)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def delete(self, id: int):
         if isinstance(id, int):
             player = self.__dao.read(id)
-            return self.__dao.delete(player)
+            if player:
+                return self.__dao.delete(player)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def read(self, id: int):
         if isinstance(id, int):
-            return self.__dao.read(id)
+            player = self.__dao.read(id)
+            if player:
+                return player
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
@@ -53,6 +63,7 @@ class ControllerPlayer:
             for player in players:
                 if(player.username == username):
                     return player
+            raise NotExistsException
         else:
             raise TypeError
 
