@@ -1,8 +1,9 @@
+from exception.NotExistsException import NotExistsException
 from controller.controllerQuestion import ControllerQuestion
 from controller.controllerPlayer import ControllerPlayer
 from model.answer import Answer
-from model.daoAnswer import AnswerDao
-from datetime import date
+from dao.daoAnswer import AnswerDao
+from datetime import date as Date
 
 
 class ControllerAnswer:
@@ -25,51 +26,62 @@ class ControllerAnswer:
                         return self.__dao.insert(answer)
                     else:
                         return False
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
-    def update(self, id: int, alternative=None, id_player=None, id_question=None, date=None):
+    def update(self, id: int, alternative: str, id_player: id, id_question: id, date: Date):
         if isinstance(id, int):
             answer = self.__dao.read(id)
+            if answer:
+                if alternative:
+                    if isinstance(alternative, str):
+                        alternative = alternative.replace(
+                            '@thegeniusbot', '').strip().upper()
+                        answer.alternative = alternative
+                    else:
+                        raise TypeError
+                if id_player:
+                    if isinstance(id_player, int):
+                        player = self.__controller_player.read(id_player)
+                        if player:
+                            answer.player = player
+                    else:
+                        raise TypeError
+                if id_question:
+                    if isinstance(id_question, int):
+                        question = self.__controller_question.read(id_question)
+                        if question:
+                            answer.question = question
+                    else:
+                        raise TypeError
+                if date:
+                    answer.date = date
 
-            if alternative:
-                if isinstance(alternative, str):
-                    alternative = alternative.replace(
-                        '@thegeniusbot', '').strip().upper()
-                    answer.alternative = alternative
-                else:
-                    raise TypeError
-            if id_player:
-                if isinstance(id_player, int):
-                    player = self.__controller_player.read(id_player)
-                    if player:
-                        answer.player = player
-                else:
-                    raise TypeError
-            if id_question:
-                if isinstance(id_question, int):
-                    question = self.__controller_question.read(id_question)
-                    if question:
-                        answer.question = question
-                else:
-                    raise TypeError
-            if date:
-                answer.date = date
-
-            return self.__dao.update(answer)
+                return self.__dao.update(answer)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def delete(self, id: int):
         if isinstance(id, int):
             answer = self.__dao.read(id)
-            return self.__dao.delete(answer)
+            if answer:
+                return self.__dao.delete(answer)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
     def read(self, id: int):
         if isinstance(id, int):
-            return self.__dao.read(id)
+            answer = self.__dao.read(id)
+            if answer:
+                return answer
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
@@ -80,9 +92,12 @@ class ControllerAnswer:
         if isinstance(id_player, int) and isinstance(id_question, int):
             player = self.__controller_player.read(id_player)
             question = self.__controller_question.read(id_question)
-            list = self.__dao.list()
-            for answer in list:
-                if answer.question == question and answer.player == player:
-                    return answer.verifyAnswer()
+            if player and question:
+                list = self.__dao.list()
+                for answer in list:
+                    if answer.question == question and answer.player == player:
+                        return answer.verifyAnswer()
+            else:
+                raise NotExistsException
         else:
             raise TypeError

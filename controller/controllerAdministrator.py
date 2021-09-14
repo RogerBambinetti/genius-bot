@@ -1,5 +1,5 @@
 from exception.NotExistsException import NotExistsException
-from model.daoAdministrator import AdministratorDao
+from dao.daoAdministrator import AdministratorDao
 from model.administrator import Administrator
 
 

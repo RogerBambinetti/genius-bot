@@ -1,5 +1,5 @@
 from model.category import Category
-from model.daoCategory import CategoryDao
+from dao.daoCategory import CategoryDao
 from exception.NotExistsException import NotExistsException
 
 

@@ -1,7 +1,8 @@
+from exception.NotExistsException import NotExistsException
 import random
 from model.question import Question
 from controller.controllerCategory import ControllerCategory
-from model.daoQuestion import QuestionDao
+from dao.daoQuestion import QuestionDao
 from datetime import date
 
 
@@ -17,6 +18,8 @@ class ControllerQuestion:
                 question = Question(description, answer,
                                     category, points, date)
                 return self.__dao.insert(question)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 
@@ -24,32 +27,36 @@ class ControllerQuestion:
         if isinstance(id, int):
             question = self.__dao.read(id)
 
-            if description:
-                if isinstance(description, str):
-                    question.description = description
-                else:
-                    raise TypeError
-            if answer:
-                if isinstance(answer, str):
-                    question.answer = answer
-                else:
-                    raise TypeError
-            if id_category:
-                if isinstance(id_category, int):
-                    category = self.__controller_category.read(id_category)
-                    if category:
-                        question.category = category
-                else:
-                    raise TypeError
-            if points:
-                if isinstance(points, int):
-                    question.points = points
-                else:
-                    raise TypeError
-            if date:
-                question.date = date
+            if question:
 
-            return self.__dao.update(question)
+                if description:
+                    if isinstance(description, str):
+                        question.description = description
+                    else:
+                        raise TypeError
+                if answer:
+                    if isinstance(answer, str):
+                        question.answer = answer
+                    else:
+                        raise TypeError
+                if id_category:
+                    if isinstance(id_category, int):
+                        category = self.__controller_category.read(id_category)
+                        if category:
+                            question.category = category
+                    else:
+                        raise TypeError
+                if points:
+                    if isinstance(points, int):
+                        question.points = points
+                    else:
+                        raise TypeError
+                if date:
+                    question.date = date
+
+                return self.__dao.update(question)
+            else:
+                raise NotExistsException
         else:
             raise TypeError
 

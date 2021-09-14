@@ -1,6 +1,6 @@
 from exception.NotExistsException import NotExistsException
 from model.player import Player
-from model.daoPlayer import PlayerDao
+from dao.daoPlayer import PlayerDao
 
 
 class ControllerPlayer:

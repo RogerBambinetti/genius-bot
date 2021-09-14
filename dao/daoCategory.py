@@ -1,5 +1,5 @@
 from sqlite3 import OperationalError
-from model.abstractDao import AbstractDao
+from dao.abstractDao import AbstractDao
 from database.db import Db
 from model.category import Category
 
