@@ -12,7 +12,7 @@ class ControllerAnswer:
         self.__controller_question = ControllerQuestion()
         self.__controller_player = ControllerPlayer()
 
-    def insert(self, alternative: str, id_player: int, id_question: int, date: date):
+    def insert(self, alternative: str, id_player: int, id_question: int, date: Date):
         if isinstance(alternative, str) and isinstance(id_player, int) and isinstance(id_question, int):
             player = self.__controller_player.read(id_player)
             question = self.__controller_question.read(id_question)

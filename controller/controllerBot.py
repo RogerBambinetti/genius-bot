@@ -1,7 +1,6 @@
 import time
 from model.bot import Bot
 from datetime import date
-from controller.controllerBot import ControllerBot
 from controller.controllerAnswer import ControllerAnswer
 from controller.controllerPlayer import ControllerPlayer
 from controller.controllerQuestion import ControllerQuestion
