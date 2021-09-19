@@ -1,73 +1,102 @@
-from controller.controllerAdministrator import ControllerAdministrator
+import PySimpleGUI as sg
 
 
 class ViewAdministrator():
-    def __init__(self):
-        self.__controller_administrator = ControllerAdministrator()
 
     def options(self):
-        try:
-            print('-------- ADMINISTRADOR ----------')
-            print()
-            print('1 - Inserir')
-            print('2 - Editar')
-            print('3 - Excluir')
-            print('4 - Listar')
-            print('0 - Retornar')
-
-            option = int(input('Digite a opção: '))
-            if option == 1:
-                return self.insert()
-            elif option == 2:
-                return self.update()
-            elif option == 3:
-                return self.delete()
-            elif option == 4:
-                return self.list()
-            elif option == 0:
-                return True
-            else:
-                raise ValueError
-        except ValueError:
-            print('O valor inserido não é válido, digite um valor válido')
+        sg.ChangeLookAndFeel('Tan')
+        pass
 
     def insert(self):
-        try:
-            name = input('Nome: ')
-            username = input('Username: ')
-            email = input('Email: ')
-            password = input('Senha: ')
+        sg.ChangeLookAndFeel('Tan')
+        layout = [
+            [sg.Text('Insira os valores:')],
+            [sg.Text('Nome', size=(15, 1)),
+                sg.InputText(key='name')],
+            [sg.Text('Username', size=(15, 1)),
+             sg.InputText(key='username')],
+            [sg.Text('Email', size=(15, 1)),
+             sg.InputText(key='email')],
+            [sg.Text('Senha', size=(15, 1)),
+             sg.InputText(key='password')],
+            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+        ]
 
-            return self.__controller_administrator.insert(name, username, email, password)
-        except TypeError:
-            print('Valores inválidos')
+        window = sg.Window('Administrador').Layout(layout)
+        button, values = window.Read()
 
-    def update(self):
-        try:
-            id = int(input('Identificador: '))
+        window.close()
 
-            print('Preencher apenas os campos que deseja alterar: ')
-            print()
-            name = input('Nome: ')
-            username = input('Username: ')
-            email = input('Email: ')
-            password = input('Senha: ')
+        if button == 'OK':
+            return values['name'], values['username'], values['email'], values['password']
+        else:
+            return False
 
-            return self.__controller_administrator.update(
-                id, name, username, email, password)
-        except TypeError:
-            print('Valores inválidos')
+    def update(self, administrator):
+        sg.ChangeLookAndFeel('Tan')
+        layout = [
+            [sg.Text('Insira os valores:')],
+            [sg.Text('Nome', size=(15, 1)),
+                sg.InputText(administrator.name, key='name')],
+            [sg.Text('Username', size=(15, 1)),
+             sg.InputText(administrator.username, key='username')],
+            [sg.Text('Email', size=(15, 1)),
+             sg.InputText(administrator.email, key='email')],
+            [sg.Text('Senha', size=(15, 1)),
+             sg.InputText(administrator.password, key='password')],
+            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+        ]
 
-    def delete(self):
-        try:
-            id = int(input('Identificador: '))
+        window = sg.Window('Administrador').Layout(layout)
+        button, values = window.Read()
 
-            return self.__controller_administrator.delete(id)
-        except TypeError or ValueError:
-            print('Valores inválidos')
+        window.close()
 
-    def list(self):
-        list = self.__controller_administrator.list()
+        if button == 'OK':
+            return values['name'], values['username'], values['email'], values['password']
+        else:
+            return False
 
+    def delete(self, administrator):
+        sg.ChangeLookAndFeel('Tan')
+
+        layout = [
+            [sg.Text(
+                'Possui certeza que deseja excluir esse cadastro? : ')],
+            [sg.Text('Nome', size=(15, 1)), sg.Text(
+                administrator.name, key='name')],
+            [sg.Text('Username', size=(15, 1)), sg.Text(
+                administrator.username, key='username')],
+            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+        ]
+
+        window = sg.Window('Administrador').Layout(layout)
+
+        button, values = window.Read()
+        window.close()
+        if button == 'OK':
+            return True
+        else:
+            return False
+
+    def select(self, list):
+        sg.ChangeLookAndFeel('Tan')
+        layout = [
+            [sg.Text('Administradores')], [sg.InputCombo(
+                (list), key='administrator')],
+            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+        ]
+
+        window = sg.Window('Administrador').Layout(layout)
+        button, values = window.Read()
+
+        window.close()
+
+        if button == 'OK':
+            return values['administrator']
+        else:
+            return False
+
+    def list(self, list):
         for item in list:
             print(item)

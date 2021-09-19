@@ -1,33 +1,45 @@
+from model.category import Category
+from view.viewQuestion import ViewQuestion
 from exception.NotExistsException import NotExistsException
 import random
 from model.question import Question
 from controller.controllerCategory import ControllerCategory
 from dao.daoQuestion import QuestionDao
-from datetime import date
+from datetime import date as Date
 
 
 class ControllerQuestion:
     def __init__(self):
         self.__dao = QuestionDao
         self.__controller_category = ControllerCategory()
+        self.__view = ViewQuestion()
 
-    def insert(self, description: str, answer: str, id_category: int, points: int, date: date):
-        if isinstance(description, str) and isinstance(answer, str) and isinstance(id_category, int) and isinstance(points, int):
-            category = self.__controller_category.read(id_category)
-            if category:
-                question = Question(description, answer,
-                                    category, points, date)
-                return self.__dao.insert(question)
+    def insert(self):
+        try:
+            description, answer, category, points, date = self.__view.insert()
+            if isinstance(description, str) and isinstance(answer, str) and isinstance(category, Category) and isinstance(points, int) and isinstance(date, Date):
+                if category:
+                    question = Question(description, answer,
+                                        category, points, date)
+                    self.__dao.insert(question)
+                else:
+                    raise NotExistsException
             else:
-                raise NotExistsException
-        else:
-            raise TypeError
+                raise TypeError
+        except NotExistsException:
+            pass
+        except Exception:
+            pass
 
-    def update(self, id: int, description=None, answer=None, id_category=None, points=None, date=None):
-        if isinstance(id, int):
-            question = self.__dao.read(id)
+    def update(self):
+        try:
+            categories = self.__controller_category.list()
+            list = self.__dao.list()
+            question = self.__view.select(list)
 
             if question:
+                description, answer, category, points, date = self.__view.update(
+                    categories, question)
 
                 if description:
                     if isinstance(description, str):
@@ -39,13 +51,10 @@ class ControllerQuestion:
                         question.answer = answer
                     else:
                         raise TypeError
-                if id_category:
-                    if isinstance(id_category, int):
-                        category = self.__controller_category.read(id_category)
-                        if category:
-                            question.category = category
+                    if category:
+                        question.category = category
                     else:
-                        raise TypeError
+                        raise NotExistsException
                 if points:
                     if isinstance(points, int):
                         question.points = points
@@ -54,32 +63,51 @@ class ControllerQuestion:
                 if date:
                     question.date = date
 
-                return self.__dao.update(question)
+                self.__dao.update(question)
             else:
                 raise NotExistsException
-        else:
-            raise TypeError
+        except NotExistsException:
+            pass
+        except Exception:
+            pass
 
-    def delete(self, id: int):
-        if isinstance(id, int):
-            question = self.__dao.read(id)
-            return self.__dao.delete(question)
-        else:
-            raise TypeError
+    def delete(self):
+        try:
+            list = self.__dao.list()
+            question = self.__view.select(list)
+
+            if question:
+                confirm = self.__view.delete(question)
+                if confirm:
+                    self.__dao.delete(question)
+            else:
+                raise NotExistsException
+        except NotExistsException:
+            pass
+        except Exception:
+            pass
 
     def read(self, id: int):
-        if isinstance(id, int):
-            return self.__dao.read(id)
-        else:
-            raise TypeError
+        try:
+            if isinstance(id, int):
+                question = self.__dao.read(id)
+                if question:
+                    return question
+            else:
+                raise TypeError
+        except Exception:
+            pass
 
     def readRandom(self):
-        list = self.__dao.list()
+        try:
+            list = self.__dao.list()
 
-        if(list):
-            return random.choice(list)
-        else:
-            return False
+            if(list):
+                return random.choice(list)
+            else:
+                return False
+        except Exception:
+            pass
 
     def list(self):
         return self.__dao.list()

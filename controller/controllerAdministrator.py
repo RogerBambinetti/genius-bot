@@ -1,11 +1,13 @@
 from exception.NotExistsException import NotExistsException
 from dao.daoAdministrator import AdministratorDao
 from model.administrator import Administrator
+from view.viewAdministrator import ViewAdministrator
 
 
 class ControllerAdministrator:
     def __init__(self):
         self.__dao = AdministratorDao
+        self.__view = ViewAdministrator
 
     def insert(self, name: str, username: str, email: str, password: str):
         if isinstance(name, str) and isinstance(username, str) and isinstance(email, str) and isinstance(password, str):

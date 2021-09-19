@@ -11,17 +11,20 @@ class ControllerCategory:
         self.__dao = CategoryDao
         self.__view = ViewCategory
 
+    def options(self):
+        sg.ChangeLookAndFeel('Tan')
+        pass
+
     def insert(self):
         try:
             name = self.__view.insert()
-
             if name:
                 if isinstance(name, str):
                     category = Category(name)
                     self.__dao.insert(category)
                 else:
                     raise TypeError
-        except:
+        except Exception:
             pass
 
     def update(self):
@@ -39,10 +42,12 @@ class ControllerCategory:
                     self.__dao.update(category)
             else:
                 raise NotExistsException
-        except:
+        except NotExistsException:
+            pass
+        except Exception:
             pass
 
-    def delete(self, id: int):
+    def delete(self):
         try:
             list = self.__dao.list()
             category = self.__view.select(list)
@@ -53,7 +58,9 @@ class ControllerCategory:
                     self.__dao.delete(category)
             else:
                 raise NotExistsException
-        except:
+        except NotExistsException:
+            pass
+        except Exception:
             pass
 
     def read(self, id: int):
@@ -62,11 +69,9 @@ class ControllerCategory:
                 category = self.__dao.read(id)
                 if category:
                     return category
-                else:
-                    raise NotExistsException
             else:
                 raise TypeError
-        except:
+        except Exception:
             pass
 
     def list(self):

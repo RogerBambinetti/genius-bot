@@ -11,7 +11,8 @@ class ViewCategory():
         sg.ChangeLookAndFeel('Tan')
         layout = [
             [sg.Text('Insira os valores:')],
-            [sg.Text('Nome', size=(15, 1)), sg.InputText(key='name')],
+            [sg.Text('Nome', size=(15, 1)),
+             sg.InputText(key='name')],
             [sg.Submit('OK'), sg.Cancel('Cancelar')]
         ]
 
@@ -51,7 +52,8 @@ class ViewCategory():
         layout = [
             [sg.Text(
                 'Possui certeza que deseja excluir esse cadastro? : ')],
-            [sg.Text(category.name, size=(15, 1), key='category')],
+            [sg.Text('Categoria', size=(15, 1)),
+             sg.Text(category.name, key='category')],
             [sg.Submit('OK'), sg.Cancel('Cancelar')]
         ]
 
@@ -68,7 +70,7 @@ class ViewCategory():
         sg.ChangeLookAndFeel('Tan')
         layout = [
             [sg.Text('Categorias')], [sg.InputCombo(
-                (list), size=(30, 1), key='category')],
+                (list), key='category')],
             [sg.Submit('OK'), sg.Cancel('Cancelar')]
         ]
 
