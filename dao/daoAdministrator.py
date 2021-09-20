@@ -66,6 +66,11 @@ class DaoAdministrator(AbstractDao):
             if(record.id == id):
                 return record
 
+    def readByEmail(self, email: str):
+        for record in self.__records:
+            if(record.email == email):
+                return record
+
     def list(self):
         return self.__records
 

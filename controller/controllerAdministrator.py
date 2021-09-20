@@ -80,3 +80,14 @@ class ControllerAdministrator:
 
     def list(self):
         return self.__dao.list()
+
+    def login(self, email: str, password: str):
+        if isinstance(email, str) and isinstance(password, str):
+            user = self.__dao.readByEmail(email)
+            if(user):
+                if(user.password == password):
+                    return True
+            
+            return False
+        else:
+            raise TypeError
