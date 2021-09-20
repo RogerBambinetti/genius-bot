@@ -1,3 +1,4 @@
+from view.viewError import ViewError
 from view.viewInitial import ViewInitial
 from controller.controllerQuestion import ControllerQuestion
 from controller.controllerCategory import ControllerCategory
@@ -10,6 +11,19 @@ class Initial():
         self.__controller_category = ControllerCategory()
         self.__controller_administrator = ControllerAdministrator()
         self.__view = ViewInitial()
+        self.__viewError = ViewError()
+
+    def start(self):
+        try:
+            email, password = self.__view.login()
+            if email and password:
+                login = self.__controller_administrator.login(email, password)
+                if login:
+                    self.options()
+                else:
+                    pass
+        except Exception:
+            self.__viewError.error()
 
     def options(self):
         while True:

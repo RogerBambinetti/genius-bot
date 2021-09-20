@@ -1,3 +1,4 @@
+from view.viewError import ViewError
 from model.category import Category
 from view.viewQuestion import ViewQuestion
 from exception.NotExistsException import NotExistsException
@@ -13,6 +14,7 @@ class ControllerQuestion:
         self.__dao = QuestionDao
         self.__controller_category = ControllerCategory()
         self.__view = ViewQuestion()
+        self.__viewError = ViewError()
 
     def options(self):
         option = self.__view.options()
@@ -46,7 +48,7 @@ class ControllerQuestion:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def update(self):
         try:
@@ -86,7 +88,7 @@ class ControllerQuestion:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def delete(self):
         try:
@@ -102,7 +104,7 @@ class ControllerQuestion:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def read(self, id: int):
         try:

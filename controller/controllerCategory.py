@@ -1,3 +1,4 @@
+from view.viewError import ViewError
 from view.viewCategory import ViewCategory
 from model.category import Category
 from dao.daoCategory import CategoryDao
@@ -10,6 +11,7 @@ class ControllerCategory:
     def __init__(self):
         self.__dao = CategoryDao
         self.__view = ViewCategory()
+        self.__viewError = ViewError()
 
     def options(self):
         option = self.__view.options()
@@ -35,7 +37,7 @@ class ControllerCategory:
                 else:
                     raise TypeError
         except Exception:
-            pass
+            self.__viewError.error()
 
     def update(self):
         try:
@@ -55,7 +57,7 @@ class ControllerCategory:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def delete(self):
         try:
@@ -71,7 +73,7 @@ class ControllerCategory:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def read(self, id: int):
         try:

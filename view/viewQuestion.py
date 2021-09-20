@@ -118,12 +118,15 @@ class ViewQuestion():
 
     def list(self, list):
         sg.ChangeLookAndFeel('Tan')
+
         layout = [
+            [sg.Text('Questões', font=(25))],
             [sg.Listbox(list, size=(60, 15))],
             [sg.Button('OK')]
         ]
 
-        window = sg.Window('Questão').Layout(layout)
+        window = sg.Window('Questão', element_justification="center",
+                           grab_anywhere=True).Layout(layout)
         button, values = window.Read()
 
         window.close()

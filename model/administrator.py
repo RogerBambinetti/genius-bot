@@ -24,8 +24,7 @@ class Administrator(User):
         self.__password = password
 
     def __str__(self):
-        string = f'id: {self.id} \n'
-        string += f'nome: {self.name} \n'
+        string = f'nome: {self.name} \n'
         string += f'username: {self.username} \n'
         string += f'e-mail: {self.__email} \n'
 

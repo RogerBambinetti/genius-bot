@@ -1,3 +1,4 @@
+from view.viewError import ViewError
 from exception.NotExistsException import NotExistsException
 from dao.daoAdministrator import AdministratorDao
 from model.administrator import Administrator
@@ -8,6 +9,7 @@ class ControllerAdministrator:
     def __init__(self):
         self.__dao = AdministratorDao
         self.__view = ViewAdministrator()
+        self.__viewError = ViewError()
 
     def options(self):
         option = self.__view.options()
@@ -32,7 +34,7 @@ class ControllerAdministrator:
             else:
                 raise TypeError
         except Exception:
-            pass
+            self.__viewError.error()
 
     def update(self):
         try:
@@ -69,7 +71,7 @@ class ControllerAdministrator:
         except NotExistsException:
             pass
         except Exception:
-            pass
+            self.__viewError.error()
 
     def delete(self):
         try:
@@ -82,42 +84,45 @@ class ControllerAdministrator:
                     self.__dao.delete(administrator)
             else:
                 raise NotExistsException
-        except:
-            raise TypeError
+        except Exception:
+            self.__viewError.error()
 
     def read(self, id: int):
-        if isinstance(id, int):
-            administrator = self.__dao.read(id)
-            if administrator:
-                return administrator
-            else:
-                raise NotExistsException
-        else:
-            raise TypeError
+        try:
+            if isinstance(id, int):
+                administrator = self.__dao.read(id)
+                if administrator:
+                    return administrator
+                else:
+                    raise NotExistsException
+        except Exception:
+            pass
 
     def readByUsername(self, username: str):
-        if isinstance(username, str):
-            administrators = self.__dao.list()
+        try:
+            if isinstance(username, str):
+                administrators = self.__dao.list()
 
-            for administrator in administrators:
-                if(administrator.username == username):
-                    return administrator
-            raise NotExistsException
-        else:
-            TypeError
+                for administrator in administrators:
+                    if(administrator.username == username):
+                        return administrator
+                raise NotExistsException
+        except Exception:
+            pass
 
     def list(self):
         return self.__dao.list()
 
     def login(self, email: str, password: str):
-        if isinstance(email, str) and isinstance(password, str):
-            user = self.__dao.readByEmail(email)
-            if(user):
-                if(user.password == password):
-                    return True
-            return False
-        else:
-            raise TypeError
+        try:
+            if isinstance(email, str) and isinstance(password, str):
+                user = self.__dao.readByEmail(email)
+                if(user):
+                    if(user.password == password):
+                        return True
+                return False
+        except Exception:
+            pass
 
     def listView(self):
         list = self.__dao.list()

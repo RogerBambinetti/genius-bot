@@ -6,7 +6,7 @@ class ViewCategory():
     def options(self):
         sg.ChangeLookAndFeel('Tan')
         layout_column = [
-            [sg.Text('Escolha uma opção', font=(25))],
+            [sg.Text('Escolha uma opção.', font=(25))],
             [sg.Button('Inserir', key='insert', size=(30, 1))],
             [sg.Button('Atualizar', key='update', size=(30, 1))],
             [sg.Button('Deletar', key='delete', size=(30, 1))],
@@ -26,7 +26,7 @@ class ViewCategory():
     def insert(self):
         sg.ChangeLookAndFeel('Tan')
         layout = [
-            [sg.Text('Insira os valores:')],
+            [sg.Text('Insira os valores.', font=(25))],
             [sg.Text('Nome', size=(15, 1)),
              sg.InputText(key='name')],
             [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
@@ -46,7 +46,7 @@ class ViewCategory():
         sg.ChangeLookAndFeel('Tan')
         layout = [
             [sg.Text(
-                'Campos pré-preenchidos com valores originais, altere apenas aqueles que deseja: ')],
+                'Campos pré-preenchidos com valores originais, altere apenas aqueles que deseja.', font=(25))],
             [sg.Text('Nome', size=(15, 1)), sg.InputText(
                 category.name, key='name')],
             [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
@@ -67,7 +67,7 @@ class ViewCategory():
 
         layout = [
             [sg.Text(
-                'Possui certeza que deseja excluir esse cadastro? : ')],
+                'Possui certeza que deseja excluir esse cadastro?', font=(25))],
             [sg.Text('Categoria', size=(15, 1)),
              sg.Text(category.name, key='category')],
             [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
@@ -85,7 +85,7 @@ class ViewCategory():
     def select(self, list):
         sg.ChangeLookAndFeel('Tan')
         layout = [
-            [sg.Text('Categorias')], [sg.InputCombo(
+            [sg.Text('Categorias', font=(25))], [sg.InputCombo(
                 (list), key='category')],
             [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
@@ -102,12 +102,15 @@ class ViewCategory():
 
     def list(self, list):
         sg.ChangeLookAndFeel('Tan')
+
         layout = [
+            [sg.Text('Categorias', font=(25))],
             [sg.Listbox(list, size=(60, 15))],
             [sg.Button('OK')]
         ]
 
-        window = sg.Window('Categoria').Layout(layout)
+        window = sg.Window('Categoria', element_justification="center",
+                           grab_anywhere=True).Layout(layout)
         button, values = window.Read()
 
         window.close()

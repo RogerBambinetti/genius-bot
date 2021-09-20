@@ -23,7 +23,6 @@ class Category:
         self.__name = name
 
     def __str__(self):
-        string = f'ID: {self.__id} \n'
-        string += f'Nome: {self.__name} \n'
+        string = f'Nome: {self.__name} \n'
 
         return string

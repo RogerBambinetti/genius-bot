@@ -1,5 +1,4 @@
 from controller.controllerInitial import Initial
 
-system = Initial()
-
-system.options()
+if __name__ == "__main__":
+    Initial().start()
