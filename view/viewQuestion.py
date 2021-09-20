@@ -6,7 +6,23 @@ class ViewQuestion():
 
     def options(self):
         sg.ChangeLookAndFeel('Tan')
-        pass
+        layout_column = [
+            [sg.Text('Escolha uma opção', font=(25))],
+            [sg.Button('Inserir', key='insert', size=(30, 1))],
+            [sg.Button('Atualizar', key='update', size=(30, 1))],
+            [sg.Button('Deletar', key='delete', size=(30, 1))],
+            [sg.Button('Listar', key='list', size=(30, 1))],
+            [sg.Cancel('Cancelar', key='cancel')]
+        ]
+
+        layout = [[sg.Column(layout_column, element_justification='center')]]
+
+        window = sg.Window('Categoria',
+                           element_justification='center').Layout(layout)
+        button, values = window.Read()
+        window.close()
+
+        return button
 
     def insert(self, categories):
         sg.ChangeLookAndFeel('Tan')
@@ -19,7 +35,7 @@ class ViewQuestion():
             [sg.Text('Pontos', size=(15, 1)), sg.In(key='points')],
             [sg.Text('Categoria', size=(15, 1)), sg.InputCombo(
                 (categories), size=(30, 1), key='category')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Questão').Layout(layout)
@@ -47,7 +63,7 @@ class ViewQuestion():
                 question.points, key='points')],
             [sg.Text('Categoria', size=(15, 1)), sg.InputCombo(
                 (categories), default_value=question.category, size=(30, 1), key='category')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Questão').Layout(layout)
@@ -70,7 +86,7 @@ class ViewQuestion():
                 question.description, key='question')],
             [sg.Text('Categoria', size=(15, 1)), sg.Text(
                 question.category.name, key='category')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Questão').Layout(layout)
@@ -86,8 +102,8 @@ class ViewQuestion():
         sg.ChangeLookAndFeel('Tan')
         layout = [
             [sg.Text('Questões')], [sg.InputCombo(
-                (list), key='question')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+                (list), key='question', size=(60, 15))],
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Questão').Layout(layout)
@@ -101,5 +117,13 @@ class ViewQuestion():
             return False
 
     def list(self, list):
-        for item in list:
-            print(item)
+        sg.ChangeLookAndFeel('Tan')
+        layout = [
+            [sg.Listbox(list, size=(60, 15))],
+            [sg.Button('OK')]
+        ]
+
+        window = sg.Window('Questão').Layout(layout)
+        button, values = window.Read()
+
+        window.close()

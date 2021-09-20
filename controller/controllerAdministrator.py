@@ -87,7 +87,6 @@ class ControllerAdministrator:
             if(user):
                 if(user.password == password):
                     return True
-            
             return False
         else:
             raise TypeError

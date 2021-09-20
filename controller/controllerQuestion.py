@@ -14,9 +14,26 @@ class ControllerQuestion:
         self.__controller_category = ControllerCategory()
         self.__view = ViewQuestion()
 
+    def options(self):
+        option = self.__view.options()
+
+        if option == 'insert':
+            self.insert()
+        elif option == 'update':
+            self.update()
+        elif option == 'delete':
+            self.delete()
+        elif option == 'list':
+            self.listView()
+        elif option == 'cancel':
+            pass
+
     def insert(self):
         try:
-            description, answer, category, points, date = self.__view.insert()
+            categories = self.__controller_category.list()
+
+            description, answer, category, points, date = self.__view.insert(
+                categories)
             if isinstance(description, str) and isinstance(answer, str) and isinstance(category, Category) and isinstance(points, int) and isinstance(date, Date):
                 if category:
                     question = Question(description, answer,
@@ -108,6 +125,10 @@ class ControllerQuestion:
                 return False
         except Exception:
             pass
+
+    def listView(self):
+        list = self.__dao.list()
+        self.__view.list(list)
 
     def list(self):
         return self.__dao.list()

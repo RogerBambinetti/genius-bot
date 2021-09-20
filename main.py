@@ -1,5 +1,5 @@
-from view.viewSystem import ViewSystem
+from controller.controllerInitial import Initial
 
-system = ViewSystem()
-while True:
-    system.main()
+system = Initial()
+
+system.options()

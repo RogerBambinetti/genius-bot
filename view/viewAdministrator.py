@@ -19,7 +19,7 @@ class ViewAdministrator():
              sg.InputText(key='email')],
             [sg.Text('Senha', size=(15, 1)),
              sg.InputText(key='password')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Administrador').Layout(layout)
@@ -44,7 +44,7 @@ class ViewAdministrator():
              sg.InputText(administrator.email, key='email')],
             [sg.Text('Senha', size=(15, 1)),
              sg.InputText(administrator.password, key='password')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Administrador').Layout(layout)
@@ -67,7 +67,7 @@ class ViewAdministrator():
                 administrator.name, key='name')],
             [sg.Text('Username', size=(15, 1)), sg.Text(
                 administrator.username, key='username')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Administrador').Layout(layout)
@@ -84,7 +84,7 @@ class ViewAdministrator():
         layout = [
             [sg.Text('Administradores')], [sg.InputCombo(
                 (list), key='administrator')],
-            [sg.Submit('OK'), sg.Cancel('Cancelar')]
+            [sg.Submit('OK'), sg.Cancel('Cancelar', key='cancel')]
         ]
 
         window = sg.Window('Administrador').Layout(layout)

@@ -1,19 +1,29 @@
-from _typeshed import Self
 from view.viewCategory import ViewCategory
 from model.category import Category
 from dao.daoCategory import CategoryDao
 from exception.NotExistsException import NotExistsException
+import PySimpleGUI as sg
 
 
 class ControllerCategory:
 
     def __init__(self):
         self.__dao = CategoryDao
-        self.__view = ViewCategory
+        self.__view = ViewCategory()
 
     def options(self):
-        sg.ChangeLookAndFeel('Tan')
-        pass
+        option = self.__view.options()
+
+        if option == 'insert':
+            self.insert()
+        elif option == 'update':
+            self.update()
+        elif option == 'delete':
+            self.delete()
+        elif option == 'list':
+            self.listView()
+        elif option == 'cancel':
+            pass
 
     def insert(self):
         try:
@@ -73,6 +83,10 @@ class ControllerCategory:
                 raise TypeError
         except Exception:
             pass
+
+    def listView(self):
+        list = self.__dao.list()
+        self.__view.list(list)
 
     def list(self):
         return self.__dao.list()
