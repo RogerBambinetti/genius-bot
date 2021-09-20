@@ -6,6 +6,7 @@ from controller.controllerPlayer import ControllerPlayer
 from controller.controllerQuestion import ControllerQuestion
 from controller.controllerRanking import ControllerRanking
 from tweepy import TweepError
+from exception.InsufficientDataException import InsufficientDataException
 
 class ControllerBot():
     def __init__(self):
@@ -67,10 +68,13 @@ class ControllerBot():
 
     def initDailyRankingSchedule(self):
         time.sleep(60 * 60 * 24)
-        ranking = self.__controllerRanking.getDailyRanking()
-        
-        if self.makeTweet(ranking):
-            print('Ranking diário publicado')
+        try:
+            ranking = self.__controllerRanking.getDailyRanking()
+            
+            if self.makeTweet(ranking):
+                print('Ranking diário publicado')
+        except InsufficientDataException:
+            pass
     
         self.initDailyRankingSchedule()
 

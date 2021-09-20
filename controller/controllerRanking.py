@@ -1,6 +1,6 @@
 from datetime import date
 from controller.controllerAnswer import ControllerAnswer
-
+from exception.InsufficientDataException import InsufficientDataException
 
 class ControllerRanking():
     def __init__(self):
@@ -45,6 +45,9 @@ class ControllerRanking():
                     players[j] = players[j+1]
                     players[j+1] = oldPlayer
 
+        if(len(scores) == 0):
+            raise InsufficientDataException
+
         ranking = f'🏆 Ranking Diário - {today} 🏆\n'
         for i in range(10):
             if(i < len(players)):
@@ -84,6 +87,9 @@ class ControllerRanking():
 
                     players[j] = players[j+1]
                     players[j+1] = oldPlayer
+
+        if(len(scores) == 0):
+            raise InsufficientDataException
 
         ranking = f'🏆 Ranking Geral 🏆\n'
         for i in range(10):
