@@ -10,7 +10,7 @@ class ViewInitial():
             [sg.Button('Categoria', key='category', size=(30, 1))],
             [sg.Button('Pergunta', key='question', size=(30, 1))],
             [sg.Button('Administrador', key='administrator', size=(30, 1))],
-            [sg.Cancel('Cancelar', key='cancel')]
+            [sg.Cancel('Sair', key='cancel')]
         ]
 
         layout = [[sg.Column(layout_column, element_justification='center')]]

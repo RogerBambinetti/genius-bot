@@ -7,19 +7,41 @@ from view.viewAdministrator import ViewAdministrator
 class ControllerAdministrator:
     def __init__(self):
         self.__dao = AdministratorDao
-        self.__view = ViewAdministrator
+        self.__view = ViewAdministrator()
 
-    def insert(self, name: str, username: str, email: str, password: str):
-        if isinstance(name, str) and isinstance(username, str) and isinstance(email, str) and isinstance(password, str):
-            administrator = Administrator(name, username, email, password)
-            return self.__dao.insert(administrator)
-        else:
-            raise TypeError
+    def options(self):
+        option = self.__view.options()
 
-    def update(self, id: int, name=None, username=None, email=None, password=None):
-        if isinstance(id, int):
-            administrator = self.__dao.read(id)
+        if option == 'insert':
+            self.insert()
+        elif option == 'update':
+            self.update()
+        elif option == 'delete':
+            self.delete()
+        elif option == 'list':
+            self.listView()
+        elif option == 'cancel':
+            pass
+
+    def insert(self):
+        try:
+            name, username, email, password = self.__view.insert()
+            if isinstance(name, str) and isinstance(username, str) and isinstance(email, str) and isinstance(password, str):
+                administrator = Administrator(name, username, email, password)
+                self.__dao.insert(administrator)
+            else:
+                raise TypeError
+        except Exception:
+            pass
+
+    def update(self):
+        try:
+            list = self.__dao.list()
+            administrator = self.__view.select(list)
             if administrator:
+                name, username, email, password = self.__view.update(
+                    administrator)
+
                 if name:
                     if isinstance(name, str):
                         administrator.name = name
@@ -41,20 +63,26 @@ class ControllerAdministrator:
                     else:
                         raise TypeError
 
-                return self.__dao.update(administrator)
+                self.__dao.update(administrator)
             else:
                 raise NotExistsException
-        else:
-            raise TypeError
+        except NotExistsException:
+            pass
+        except Exception:
+            pass
 
-    def delete(self, id: int):
-        if isinstance(id, int):
-            administrator = self.__dao.read(id)
+    def delete(self):
+        try:
+            list = self.__dao.list()
+            administrator = self.__view.select(list)
+
             if administrator:
-                return self.__dao.delete(administrator)
+                confirm = self.__view.delete(administrator)
+                if confirm:
+                    self.__dao.delete(administrator)
             else:
                 raise NotExistsException
-        else:
+        except:
             raise TypeError
 
     def read(self, id: int):
@@ -90,3 +118,7 @@ class ControllerAdministrator:
             return False
         else:
             raise TypeError
+
+    def listView(self):
+        list = self.__dao.list()
+        self.__view.list(list)
