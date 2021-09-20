@@ -46,7 +46,7 @@ class ControllerQuestion:
             else:
                 raise TypeError
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 
@@ -86,7 +86,7 @@ class ControllerQuestion:
             else:
                 raise NotExistsException
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 
@@ -102,7 +102,7 @@ class ControllerQuestion:
             else:
                 raise NotExistsException
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 

@@ -3,7 +3,6 @@ from view.viewCategory import ViewCategory
 from model.category import Category
 from dao.daoCategory import CategoryDao
 from exception.NotExistsException import NotExistsException
-import PySimpleGUI as sg
 
 
 class ControllerCategory:
@@ -55,7 +54,7 @@ class ControllerCategory:
             else:
                 raise NotExistsException
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 
@@ -71,7 +70,7 @@ class ControllerCategory:
             else:
                 raise NotExistsException
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 

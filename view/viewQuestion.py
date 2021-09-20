@@ -121,7 +121,7 @@ class ViewQuestion():
 
         layout = [
             [sg.Text('Questões', font=(25))],
-            [sg.Listbox(list, size=(60, 15))],
+            [sg.Listbox(list, size=(150, 10))],
             [sg.Button('OK')]
         ]
 

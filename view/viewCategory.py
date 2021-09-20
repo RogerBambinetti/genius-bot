@@ -105,7 +105,7 @@ class ViewCategory():
 
         layout = [
             [sg.Text('Categorias', font=(25))],
-            [sg.Listbox(list, size=(60, 15))],
+            [sg.Listbox(list, size=(100, 10))],
             [sg.Button('OK')]
         ]
 

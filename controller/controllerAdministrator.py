@@ -69,7 +69,7 @@ class ControllerAdministrator:
             else:
                 raise NotExistsException
         except NotExistsException:
-            pass
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 
@@ -84,6 +84,8 @@ class ControllerAdministrator:
                     self.__dao.delete(administrator)
             else:
                 raise NotExistsException
+        except NotExistsException:
+            self.__viewError.notExists()
         except Exception:
             self.__viewError.error()
 

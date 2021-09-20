@@ -64,7 +64,7 @@ class Question:
         self.__date = date
 
     def __str__(self):
-        string = f'descrição: {self.__description} \n'
-        string += f'resposta: {self.__answer} \n'
+        string = f'Descrição: {self.__description} \n'
+        string += f'Resposta: {self.__answer} \n'
 
         return string
