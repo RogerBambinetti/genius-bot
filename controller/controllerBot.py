@@ -52,8 +52,8 @@ class ControllerBot():
         else:
             raise TypeError
 
-    def getTweetReplies(self, id: int):
-        if isinstance(id, int):
+    def getTweetReplies(self, id: str):
+        if isinstance(id, str):
             user_name = "@thegeniusbot"
 
             replies = []
