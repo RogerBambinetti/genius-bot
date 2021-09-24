@@ -32,8 +32,8 @@ class ControllerBot():
         else:
             raise TypeError
 
-    def likeTweet(self, id: int):
-        if isinstance(id, int):
+    def likeTweet(self, id: str):
+        if isinstance(id, str):
             try:
                 self.__bot.api.create_favorite(id)
                 return True
@@ -42,8 +42,8 @@ class ControllerBot():
         else:
             raise TypeError
 
-    def deleteTweet(self, id: int):
-        if isinstance(id, int):
+    def deleteTweet(self, id: str):
+        if isinstance(id, str):
             try:
                 self.__bot.api.destroy_status(id)
                 return True
